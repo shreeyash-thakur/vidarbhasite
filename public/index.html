@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Discover Vidarbha — The Green Heart of Maharashtra. Explore tiger reserves, oranges, heritage, cuisine and more."/>
+<meta name="theme-color" content="#1B3A2D"/>
+<title>Discover Vidarbha — The Green Heart of Maharashtra</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Rajdhani:wght@500;600&family=Lato:wght@400;700&display=swap" rel="stylesheet"/>
+
+<style>
+:root{--forest:#1B3A2D;--tiger:#C45A1A;--leaf:#4A7C59;--gold:#D4A94A;--cream:#F7F1E4;--bark:#6B4F3A;--mist:#E8F0E9;--dark:#0F2218;--orange-light:#F4C07A}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--dark);overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;transition:background .4s}
+nav.scrolled{background:rgba(15,34,24,.95);backdrop-filter:blur(14px)}
+.nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+.nav-logo-main{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--gold);letter-spacing:.04em}
+.nav-logo-sub{font-family:'Rajdhani',sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,192,122,.7)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{color:rgba(247,241,228,.85);text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:var(--tiger);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+
+/* HERO */
+.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;background:url('images/landscapepic.avif') center/cover no-repeat,var(--forest);filter:brightness(.5) saturate(1.2);transform:scale(1.1);will-change:transform;animation:heroZoom 20s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.1)}to{transform:scale(1.22)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,90,26,.2) 0%,rgba(15,34,24,.7) 60%,rgba(27,58,45,.85) 100%)}
+.hero-content{position:relative;text-align:center;padding:0 2rem}
+.hero-badge{display:inline-flex;align-items:center;gap:.6rem;border:1px solid rgba(212,169,74,.5);padding:.4rem 1.2rem;font-family:'Rajdhani',sans-serif;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;animation:fadeUp 1s .2s both}
+.hero-badge::before,.hero-badge::after{content:'✦';font-size:.6rem}
+.hero-eyebrow{font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(247,241,228,.7);margin-bottom:1rem;animation:fadeUp 1s .3s both}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,11vw,9.5rem);font-weight:900;line-height:.92;color:var(--cream);animation:fadeUp 1s .4s both}
+.hero-title .accent{color:var(--tiger);font-style:italic}
+.hero-title .region{font-size:.45em;display:block;letter-spacing:.12em;color:var(--gold);font-weight:400;margin-top:.3em}
+.hero-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1rem,2.2vw,1.35rem);color:rgba(247,241,228,.75);margin-top:1.2rem;animation:fadeUp 1s .55s both}
+.hero-btns{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem;flex-wrap:wrap;animation:fadeUp 1s .7s both}
+.btn-primary{padding:.85rem 2.5rem;background:var(--tiger);color:#fff;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;transition:background .3s,transform .3s}
+.btn-primary:hover{background:#a04514;transform:translateY(-2px)}
+.btn-outline{padding:.85rem 2.5rem;border:1.5px solid var(--gold);color:var(--gold);text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;transition:all .3s}
+.btn-outline:hover{background:var(--gold);color:var(--dark)}
+.scroll-line-wrap{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.scroll-txt{font-family:'Rajdhani',sans-serif;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(247,241,228,.5)}
+.scroll-bar{width:1px;height:55px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(.6) translateY(8px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(45px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--forest);padding:.75rem 0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(212,169,74,.2);border-bottom:1px solid rgba(212,169,74,.2)}
+.marquee-inner{display:inline-block;animation:marquee 30s linear infinite}
+.marquee-inner span{font-family:'Rajdhani',sans-serif;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:0 2rem}
+.marquee-inner span.dot{color:var(--tiger);font-size:.7rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* STATS */
+.stats-bar{background:var(--dark);padding:3rem 4rem;display:flex;gap:0;justify-content:center;flex-wrap:wrap}
+.stat-item{text-align:center;padding:1.5rem 3.5rem;border-right:1px solid rgba(212,169,74,.15)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;color:var(--tiger);line-height:1}
+.stat-label{font-family:'Rajdhani',sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,241,228,.55);margin-top:.3rem}
+
+/* COMMON */
+section{padding:7rem 4rem}
+.sec-tag{font-family:'Rajdhani',sans-serif;font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:var(--tiger);margin-bottom:.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1;color:var(--forest)}
+.sec-title em{font-style:italic;color:var(--tiger)}
+.sec-title.light{color:var(--cream)}
+.sec-title.light em{color:var(--gold)}
+.sec-desc{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;line-height:1.8;color:var(--bark);max-width:620px;margin-top:1rem}
+.sec-desc.light{color:rgba(247,241,228,.65)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ABOUT */
+.about{background:var(--mist)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-img-main{width:80%;aspect-ratio:4/5;overflow:hidden}
+.about-img-main img{width:100%;height:100%;object-fit:cover}
+.about-text h2{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:900;line-height:1.05;color:var(--forest);margin-bottom:1.5rem}
+.about-text h2 span{color:var(--tiger);font-style:italic}
+.about-text p{font-size:1rem;line-height:1.8;color:var(--bark);margin-bottom:1rem}
+.about-highlights{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap}
+.hl-item{display:flex;align-items:center;gap:.7rem;font-family:'Rajdhani',sans-serif;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--forest);font-weight:600}
+.hl-dot{width:8px;height:8px;background:var(--tiger);border-radius:50%;flex-shrink:0}
+
+/* TOURISM */
+.tourism {background: var(--cream);}
+.tourism-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem}
+.dest-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.2rem}
+.dest-card{position:relative;overflow:hidden}
+.dest-card:nth-child(1){grid-column:span 7}
+.dest-card:nth-child(2){grid-column:span 5}
+.dest-card:nth-child(3){grid-column:span 4}
+.dest-card:nth-child(4){grid-column:span 4}
+.dest-card:nth-child(5){grid-column:span 4}
+.dest-card:nth-child(6){grid-column:span 5}
+.dest-card:nth-child(7){grid-column:span 7}
+.dest-img-wrap{overflow:hidden;background:#c5b9a8;width:100%}
+.dest-card:nth-child(1) .dest-img-wrap,.dest-card:nth-child(7) .dest-img-wrap{aspect-ratio:16/10}
+.dest-card:nth-child(2) .dest-img-wrap{aspect-ratio:4/3}
+.dest-card:nth-child(n+3):nth-child(-n+5) .dest-img-wrap{aspect-ratio:1}
+.dest-card:nth-child(6) .dest-img-wrap{aspect-ratio:4/5}
+.dest-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.dest-card:hover .dest-img-wrap img{transform:scale(1.07)}
+.dest-info{padding:1rem 0 .5rem}
+.dest-region{font-family:'Rajdhani',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--tiger);margin-bottom:.2rem}
+.dest-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--forest)}
+.dest-desc{font-size:.85rem;color:var(--bark);line-height:1.6;margin-top:.3rem;max-height:0;overflow:hidden;transition:max-height .4s ease}
+.dest-card:hover .dest-desc{max-height:200px}
+@media(max-width:768px){.dest-grid{grid-template-columns:repeat(1,1fr)}.dest-card{grid-column:span 12 !important}}
+
+/* WILDLIFE */
+.wildlife{background:var(--forest);position:relative;overflow:hidden}
+.wildlife-bg-text{font-family:'Playfair Display',serif;font-size:16vw;font-weight:900;color:rgba(212,169,74,.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none}
+.wildlife-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3.5rem}
+.wildlife-cards{display:flex;flex-direction:column;gap:1.2rem}
+.wl-card{display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;border:1px solid rgba(212,169,74,.15);transition:border-color .3s,background .3s}
+.wl-card:hover{border-color:rgba(212,169,74,.5);background:rgba(212,169,74,.05)}
+.wl-emoji{font-size:2rem;flex-shrink:0;line-height:1}
+.wl-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}
+.wl-card p{font-size:.9rem;line-height:1.65;color:rgba(247,241,228,.6)}
+.wildlife-img-col{display:flex;flex-direction:column;gap:1.2rem}
+.wl-img-lg{aspect-ratio:4/3;overflow:hidden}
+.wl-img-sm-row{display:flex;gap:1.2rem}
+.wl-img-sm{flex:1;aspect-ratio:1;overflow:hidden}
+.wl-img-lg img,.wl-img-sm img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.23,1,.32,1);display:block}
+.wl-img-lg:hover img,.wl-img-sm:hover img{transform:scale(1.06)}
+
+/* CULTURE */
+.culture{background:var(--cream)}
+.culture-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.culture-list{display:flex;flex-direction:column;gap:0}
+.cult-item{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;padding:1.5rem 0;border-bottom:1px solid rgba(27,58,45,.12);align-items:start;transition:padding-left .3s}
+.cult-item:hover{padding-left:.6rem}
+.cult-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:rgba(196,90,26,.25);line-height:1;width:2.5rem;transition:color .3s}
+.cult-item:hover .cult-num{color:var(--tiger)}
+.cult-info h4{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--forest);margin-bottom:.4rem}
+.cult-info p{font-size:.9rem;line-height:1.65;color:var(--bark)}
+.culture-imgs{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cult-img-item{overflow:hidden;position:relative}
+.cult-img-item:first-child{grid-column:span 2;aspect-ratio:16/9}
+.cult-img-item:not(:first-child){aspect-ratio:1}
+.cult-img-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.23,1,.32,1);display:block}
+.cult-img-item:hover img{transform:scale(1.05)}
+.cult-img-caption{position:absolute;bottom:0;left:0;right:0;padding:.8rem 1rem;background:linear-gradient(to top,rgba(15,34,24,.8),transparent);font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:.85rem}
+
+/* FOOD */
+.food{background:var(--dark)}
+.food-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.food-card{background:rgba(27,58,45,.5);border:1px solid rgba(212,169,74,.1);overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1),border-color .3s}
+.food-card:hover{transform:translateY(-6px);border-color:rgba(212,169,74,.4)}
+.food-img{aspect-ratio:4/3;overflow:hidden}
+.food-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.23,1,.32,1);display:block}
+.food-card:hover .food-img img{transform:scale(1.06)}
+.food-body{padding:1.3rem}
+.food-label{font-family:'Rajdhani',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--tiger);margin-bottom:.3rem}
+.food-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold);margin-bottom:.5rem}
+.food-desc{font-size:.85rem;line-height:1.6;color:rgba(247,241,228,.6)}
+
+/* DISTRICTS */
+.districts{background:var(--mist)}
+.dist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem}
+.dist-card{background:#fff;padding:2rem 1.5rem;text-align:center;transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s;position:relative;overflow:hidden}
+.dist-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:var(--leaf);transition:width .4s}
+.dist-card:hover::after{width:100%}
+.dist-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(27,58,45,.12)}
+.dist-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.dist-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--forest);margin-bottom:.5rem}
+.dist-card p{font-size:.85rem;line-height:1.6;color:var(--bark)}
+
+/* FACILITIES */
+.facilities{background:var(--cream)}
+.fac-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:2.5rem 0 2rem}
+.fac-tab{padding:.6rem 1.5rem;border:1.5px solid rgba(27,58,45,.3);background:transparent;font-family:'Rajdhani',sans-serif;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--bark);cursor:pointer;transition:all .3s}
+.fac-tab.active,.fac-tab:hover{background:var(--forest);border-color:var(--forest);color:var(--gold)}
+.fac-panel{display:none}
+.fac-panel.active{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;animation:fadeInUp .5s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.fac-card{background:var(--mist);padding:1.8rem;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1)}
+.fac-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--tiger);transition:height .4s}
+.fac-card:hover::before{height:100%}
+.fac-card:hover{transform:translateX(4px)}
+.fac-icon{font-size:1.8rem;margin-bottom:1rem}
+.fac-card h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--forest);margin-bottom:.5rem}
+.fac-card p{font-size:.88rem;line-height:1.65;color:var(--bark)}
+
+/* GALLERY */
+.gallery{background:var(--dark)}
+.gal-grid{columns:3;column-gap:1rem;margin-top:3rem}
+.gal-item{break-inside:avoid;margin-bottom:1rem;overflow:hidden;position:relative}
+.gal-item img{width:100%;display:block;transition:transform .6s cubic-bezier(.23,1,.32,1),filter .4s;min-height:150px}
+.gal-item:hover img{transform:scale(1.05);filter:brightness(.75) saturate(1.3)}
+.gal-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;background:rgba(196,90,26,.35);transition:opacity .4s}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-overlay span{font-family:'Rajdhani',sans-serif;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;font-weight:700}
+
+/* REACH */
+.reach{background:var(--forest)}
+.reach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem}
+.reach-card{padding:2rem 1.5rem;border:1px solid rgba(212,169,74,.2);text-align:center;transition:border-color .3s,transform .4s cubic-bezier(.23,1,.32,1)}
+.reach-card:hover{border-color:var(--gold);transform:translateY(-5px)}
+.reach-icon{font-size:2.2rem;display:block;margin-bottom:.8rem}
+.reach-card h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:.5rem}
+.reach-card p{font-size:.85rem;line-height:1.65;color:rgba(247,241,228,.6)}
+.reach-highlight{margin-top:3.5rem;background:rgba(212,169,74,.08);border:1px solid rgba(212,169,74,.2);padding:2rem 3rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.reach-highlight p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:rgba(247,241,228,.75);flex:1;line-height:1.7}
+.reach-highlight strong{color:var(--gold);font-style:normal}
+
+/* FOOTER */
+footer{background:var(--dark);padding:4.5rem 4rem 3rem}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4rem;padding-bottom:3rem;border-bottom:1px solid rgba(212,169,74,.12)}
+.foot-logo{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--gold)}
+.foot-sub{font-family:'Rajdhani',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(212,169,74,.5);margin-bottom:1rem}
+.footer-brand p{font-size:.88rem;line-height:1.7;color:rgba(247,241,228,.45)}
+.footer-col h4{font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.footer-col ul li a{color:rgba(247,241,228,.45);text-decoration:none;font-size:.88rem;transition:color .3s}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.75rem;color:rgba(247,241,228,.25);letter-spacing:.08em}
+.footer-maha{font-family:'Playfair Display',serif;font-style:italic;color:rgba(212,169,74,.4);font-size:.85rem}
+
+/* NAV ACTIONS — Login/Sign Up pair on desktop, single Register button on mobile only */
+.nav-actions{display:flex;align-items:center;gap:1.2rem}
+.nav-auth-desktop{display:flex;gap:1rem;align-items:center}
+.auth-btn{padding:.5rem 1.2rem;border:1.5px solid var(--gold);color:var(--gold);background:transparent;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:all .3s;border-radius:4px}
+.auth-btn:hover{background:var(--gold);color:var(--dark)}
+.auth-btn.login{border-color:rgba(212,169,74,.5);color:rgba(212,169,74,.85)}
+.auth-btn.login:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.register-btn{display:none;align-items:center;gap:.4rem;padding:.5rem 1.2rem;background:transparent;border:1.5px solid var(--gold);color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:4px;transition:all .3s}
+.register-btn:hover{background:var(--gold);color:var(--dark)}
+.register-btn-icon{font-size:.7rem}
+.register-btn:hover .register-btn-icon{color:var(--dark)}
+.register-btn.is-logged-in{border-color:rgba(212,169,74,.5);color:rgba(212,169,74,.85)}
+.register-btn.is-logged-in:hover{background:var(--gold);color:var(--dark)}
+
+/* AUTH MODAL */
+.auth-modal{position:fixed;inset:0;background:rgba(6,14,10,.82);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+.auth-modal.active{display:flex}
+.auth-content{background:linear-gradient(165deg,#1B3A2D 0%,#12261C 55%,#0F2218 100%);padding:0;border-radius:10px;max-width:460px;width:100%;position:relative;box-shadow:0 25px 70px rgba(0,0,0,.55),0 0 0 1px rgba(212,169,74,.25);overflow:hidden;animation:authPop .35s cubic-bezier(.16,1,.3,1) both}
+@keyframes authPop{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.auth-content::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--tiger),var(--gold),var(--tiger))}
+.auth-header{padding:2.2rem 2.2rem 0}
+.auth-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Rajdhani',sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.85}
+.auth-badge::before,.auth-badge::after{content:'✦';font-size:.55rem}
+.auth-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--cream);margin-top:.5rem}
+.auth-title em{font-style:italic;color:var(--tiger)}
+.auth-body{padding:1.6rem 2.2rem 2.2rem}
+.auth-close{position:absolute;top:1.1rem;right:1.1rem;background:rgba(247,241,228,.08);border:1px solid rgba(212,169,74,.25);border-radius:50%;font-size:1.1rem;cursor:pointer;color:var(--gold);padding:0;width:2.1rem;height:2.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:2}
+.auth-close:hover{background:var(--tiger);color:#fff;border-color:var(--tiger);transform:rotate(90deg)}
+.auth-tabs{display:flex;gap:0;margin-bottom:1.8rem;border-bottom:1px solid rgba(212,169,74,.18)}
+.auth-tab{flex:1;padding:.85rem 0;text-align:center;font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:rgba(247,241,228,.45);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;margin-bottom:-1px}
+.auth-tab.active{color:var(--gold);border-bottom-color:var(--tiger)}
+.auth-form{display:none}
+.auth-form.active{display:block;animation:fadeInUp .4s ease}
+.form-group{margin-bottom:1.3rem}
+.form-group label{display:block;font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(212,169,74,.75);margin-bottom:.5rem;font-weight:600}
+.form-group input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(212,169,74,.2);border-radius:4px;background:rgba(247,241,228,.04);font-family:'Lato',sans-serif;font-size:.95rem;transition:border-color .3s,background .3s;color:var(--cream)}
+.form-group input::placeholder{color:rgba(247,241,228,.3)}
+.form-group input:focus{outline:none;border-color:var(--tiger);background:rgba(196,90,26,.08)}
+.auth-submit{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--tiger),#a5481b);color:#fff;border:1px solid rgba(212,169,74,.4);font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:4px;transition:transform .3s,box-shadow .3s}
+.auth-submit:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(196,90,26,.35)}
+.form-link{text-align:center;font-size:.82rem;color:rgba(247,241,228,.45);margin-top:1.2rem}
+.form-link a{color:var(--gold);text-decoration:none;font-weight:600;transition:color .3s}
+.form-link a:hover{color:var(--tiger)}
+
+/* MOBILE MENU */
+.menu-toggle{display:none;font-size:1.8rem;background:none;border:none;color:var(--gold);cursor:pointer;padding:.3rem}
+
+/* SKIP LINK */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:fixed;top:1rem;left:1rem;width:auto;height:auto;padding:.5rem 1rem;background:var(--tiger);color:#fff;z-index:9999;font-family:'Rajdhani',sans-serif;font-size:.9rem}
+
+/* FOCUS STYLES */
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;flex-wrap:wrap}
+  section{padding:5rem 1.5rem}
+  .menu-toggle{display:block}
+  .nav-links{position:absolute;top:100%;left:0;width:100%;background:rgba(15,34,24,.98);flex-direction:column;align-items:center;gap:1.5rem;padding:2rem 0 2.5rem;display:none;max-height:calc(100vh - 70px);overflow-y:auto}
+  .nav-links.active{display:flex}
+  .nav-auth-desktop{display:none}
+  .register-btn{display:inline-flex;padding:.55rem 1.1rem;font-size:.7rem}
+  .about-inner,.wildlife-grid,.culture-layout,.food-grid{grid-template-columns:1fr}
+  .about-img-main{width:80%}
+  .dest-grid{grid-template-columns:1fr 1fr}
+  .dest-card{grid-column:span 1!important}
+  .dist-grid,.reach-grid{grid-template-columns:1fr 1fr}
+  .fac-panel.active{grid-template-columns:1fr}
+  .gal-grid{columns:2}
+  .footer-top{grid-template-columns:1fr;gap:2rem}
+  .stats-bar{padding:2rem 1.5rem}
+  .stat-item{padding:1rem 1.5rem;border-right:none;border-bottom:1px solid rgba(212,169,74,.15)}
+  .stat-item:last-child{border-bottom:none}
+}
+@media(max-width:480px){
+  .gal-grid{columns:1}
+  .food-grid{grid-template-columns:1fr}
+  .dist-grid{grid-template-columns:1fr 1fr}
+  .reach-grid{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:clamp(3rem,14vw,6rem)}
+  .register-btn{padding:.5rem .9rem;font-size:.66rem}
+  .auth-content{padding:2rem;max-width:calc(100% - 2rem)}
+  .form-group input{padding:.6rem .8rem}
+}
+
+/* TOAST */
+.toast{position:fixed;top:6rem;right:2rem;z-index:2000;display:flex;align-items:center;gap:.8rem;padding:1rem 1.5rem;background:var(--forest);border-left:4px solid var(--tiger);color:var(--cream);font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:.05em;box-shadow:0 10px 30px rgba(0,0,0,.25);border-radius:6px;transform:translateX(120%);opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s ease;max-width:320px}
+.toast.show{transform:translateX(0);opacity:1}
+.toast.success{border-left-color:var(--leaf)}
+.toast.error{border-left-color:var(--tiger)}
+.toast-icon{font-size:1.3rem;flex-shrink:0}
+.toast-text{line-height:1.4}
+@media(max-width:480px){.toast{right:1rem;left:1rem;max-width:none;top:5.5rem}}
+
+.google-btn{width:100%;padding:.75rem;background:var(--cream);border:1.5px solid rgba(212,169,74,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:.05em;font-weight:600;color:var(--dark);cursor:pointer;transition:box-shadow .3s,border-color .3s,transform .3s;margin-bottom:1.2rem}
+.google-btn:hover{box-shadow:0 6px 18px rgba(212,169,74,.2);border-color:var(--gold);transform:translateY(-1px)}
+.or-divider{display:flex;align-items:center;text-align:center;margin-bottom:1.2rem;color:rgba(247,241,228,.35);font-family:'Rajdhani',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:rgba(212,169,74,.18)}
+.or-divider span{padding:0 .8rem}
+</style>
+
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- NAV -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-logo" aria-label="Vidarbha Tourism Home">
+    <span class="nav-logo-main">Vidarbha</span>
+    <span class="nav-logo-sub">Maharashtra, India</span>
+  </a>
+  <ul class="nav-links" id="navLinks" role="list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tourism">Tourism</a></li>
+    <li><a href="#wildlife">Wildlife</a></li>
+    <li><a href="#culture">Culture</a></li>
+    <li><a href="#food">Cuisine</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#reach">Reach Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="nav-auth-desktop" id="navAuthDesktop">
+      <button class="auth-btn login" onclick="openAuthModal('login')">Login</button>
+      <button class="auth-btn" onclick="openAuthModal('signup')">Sign Up</button>
+    </div>
+    <button class="register-btn" id="registerBtn" onclick="openAuthModal('signup')">
+      <span class="register-btn-icon" aria-hidden="true">✦</span>
+      <span id="registerBtnLabel">Register</span>
+    </button>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<main id="main-content">
+<section class="hero" aria-label="Hero — Discover Vidarbha">
+  <div class="hero-bg" role="img" aria-label="Scenic landscape of Vidarbha forests"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-badge" aria-hidden="true">Explore the Wild East of Maharashtra</div>
+    <p class="hero-eyebrow">Green Heart of Maharashtra</p>
+    <h1 class="hero-title">
+      <span class="accent">Vidarbha</span>
+      <span class="region">Nagpur · Amravati · Chandrapur · Yavatmal · Wardha</span>
+    </h1>
+    <p class="hero-tagline">Where tigers roam ancient forests, oranges bloom golden,<br/>and the soul of Maharashtra runs deep</p>
+    <div class="hero-btns">
+      <a href="Vidarbhatripplanner.html" class="btn-primary auth-gated" data-label="plan a trip">Plan a Trip</a>
+      <a href="Vidarbhalive.html" class="btn-outline auth-gated" data-label="the live dashboard">Live Dashboard</a>
+      <a href="#tourism" class="btn-outline">Explore Vidarbha</a>
+    </div>
+  </div>
+  <div class="scroll-line-wrap" aria-hidden="true">
+    <div class="scroll-bar"></div>
+    <span class="scroll-txt">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>🐯 Tiger Capital of India</span><span class="dot">◆</span>
+    <span>🍊 Orange City — Nagpur</span><span class="dot">◆</span>
+    <span>🌿 Tadoba National Park</span><span class="dot">◆</span>
+    <span>🏛️ Gandhi's Sevagram</span><span class="dot">◆</span>
+    <span>🕌 Hazrat Tajuddin Dargah</span><span class="dot">◆</span>
+    <span>💎 Nagpur Oranges</span><span class="dot">◆</span>
+    <span>🌊 Totladoh Dam</span><span class="dot">◆</span>
+    <span>🦚 Melghat Tiger Reserve</span><span class="dot">◆</span>
+    <span>🌾 Cotton Fields of Wardha</span><span class="dot">◆</span>
+    <span>🐯 Tiger Capital of India</span><span class="dot">◆</span>
+    <span>🍊 Orange City — Nagpur</span><span class="dot">◆</span>
+    <span>🌿 Tadoba National Park</span><span class="dot">◆</span>
+    <span>🏛️ Gandhi's Sevagram</span><span class="dot">◆</span>
+    <span>🕌 Hazrat Tajuddin Dargah</span><span class="dot">◆</span>
+    <span>💎 Nagpur Oranges</span><span class="dot">◆</span>
+    <span>🌊 Totladoh Dam</span><span class="dot">◆</span>
+    <span>🦚 Melghat Tiger Reserve</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar" role="region" aria-label="Vidarbha key statistics">
+  <div class="stat-item reveal"><div class="stat-num">11</div><div class="stat-label">Districts</div></div>
+  <div class="stat-item reveal d1"><div class="stat-num">3</div><div class="stat-label">Tiger Reserves</div></div>
+  <div class="stat-item reveal d2"><div class="stat-num">1200+</div><div class="stat-label">sq km Forest Cover</div></div>
+  <div class="stat-item reveal d3"><div class="stat-num">1861</div><div class="stat-label">Year Nagpur Founded</div></div>
+  <div class="stat-item reveal d4"><div class="stat-num">3M+</div><div class="stat-label">Annual Tourists</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about" aria-labelledby="about-heading">
+  <div class="about-inner">
+    <div class="about-img reveal">
+      <div class="about-img-main">
+        <img src="images/landscapeimagechikaldhara.avif" alt="Scenic Chikhaldara landscape in Vidarbha, Maharashtra" width="600" height="750" loading="lazy" decoding="async"/>
+      </div>
+    </div>
+    <div class="about-text reveal d2">
+      <p class="sec-tag">✦ Know Your Region</p>
+      <h2 id="about-heading">The <span>Untamed</span><br/>Eastern Crown</h2>
+      <p>Vidarbha — the easternmost cultural region of Maharashtra — is a land where thick teak forests shelter India's most iconic tigers, where the perfume of orange blossoms drifts through winter mornings, and where Mahatma Gandhi chose to spin the wheel of freedom.</p>
+      <p>Comprising 11 districts across the Nagpur and Amravati divisions, Vidarbha is blessed with extraordinary biodiversity, a rich Gond tribal heritage, medieval temples, and the geographic heart of India — all within its borders.</p>
+      <div class="about-highlights">
+        <div class="hl-item"><div class="hl-dot" aria-hidden="true"></div>Geographic Centre of India</div>
+        <div class="hl-item"><div class="hl-dot" aria-hidden="true"></div>Orange Capital</div>
+        <div class="hl-item"><div class="hl-dot" aria-hidden="true"></div>Tiger Sighting Hub</div>
+        <div class="hl-item"><div class="hl-dot" aria-hidden="true"></div>Gandhi Heritage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOURISM -->
+<section class="tourism" id="tourism">
+  <div class="tourism-top">
+    <div>
+      <p class="sec-tag">✦ Places to Visit</p>
+      <h2 class="sec-title">TOP <em>Destinations</em></h2>
+    </div>
+    <p class="sec-desc">From ancient temples to colonial era architecture, from dam viewpoints to forest trails — Vidarbha rewards every kind of traveller.</p>
+  </div>
+  <div class="dest-grid">
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/tadoba.avif" alt="Tadoba Andhari Tiger Reserve"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Chandrapur</div>
+        <div class="dest-name">Tadoba–Andhari Tiger Reserve</div>
+        <div class="dest-desc">Maharashtra's oldest and largest national park — highest tiger density in the state. Jeep safaris offer thrilling big-cat encounters.</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/Sevagram_Wardha.avif" alt="Sevagram Ashram Wardha Gandhi"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Wardha</div>
+        <div class="dest-name">Sevagram Ashram</div>
+        <div class="dest-desc">Mahatma Gandhi's chosen home — a pilgrimage for every Indian, now a living museum of the freedom movement.</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/Koradi-Mandir.avif" alt="Hindu temple Vidarbha"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Nagpur</div>
+        <div class="dest-name">🛕 Shri Mahalaxmi Jagdamba Temple, Koradi</div>
+        <div class="dest-desc">One of the most revered temples in Vidarbha — dedicated to Goddess Mahalaxmi. Attracts thousands of devotees daily.</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/tigerrep.avif" alt="Melghat Tiger Reserve dense forest"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Amravati</div>
+        <div class="dest-name">Melghat Tiger Reserve</div>
+        <div class="dest-desc">Dense forests along the Gawilgarh Hills — home to tigers, sloth bears, leopards, and the Korku tribe.</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/Ramtektemple.avif" alt="Ramtek Fort Temple hilltop Nagpur"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Nagpur</div>
+        <div class="dest-name">Ramtek Fort Temple</div>
+        <div class="dest-desc">Ancient hill-top temple complex — the same Ramtek immortalised by the great Sanskrit poet Kalidasa.</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/Pench-National-Park-9.avif" alt="Pench"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Nagpur</div>
+        <div class="dest-name">Pench</div>
+        <div class="dest-desc">Pench National Park is another gem among the Vidarbha tourist places, known for its stunning landscapes and rich wildlife .</div>
+      </div>
+    </article>
+    <article class="dest-card">
+      <div class="dest-img-wrap">
+        <img src="images/chikhaldara-tourism-festival.avif" alt="Chikhaldara Hill Station valley views"/>
+      </div>
+      <div class="dest-info">
+        <div class="dest-region">✦ Amravati</div>
+        <div class="dest-name">Chikhaldara Hill Station</div>
+        <div class="desc">Only hill station in Vidarbha — at 1118m, offering coffee plantations, waterfalls, and stunning valley views.</div>
+      </div>
+    </article>
+  </div>
+</section>
+<!-- WILDLIFE -->
+<section class="wildlife" id="wildlife" aria-labelledby="wildlife-heading">
+  <div aria-hidden="true" class="wildlife-bg-text">WILD</div>
+  <div class="reveal">
+    <p class="sec-tag" style="color:var(--tiger)">✦ Nature & Safari</p>
+    <h2 class="sec-title light" id="wildlife-heading">WILD <em>Vidarbha</em></h2>
+    <p class="sec-desc light">Three tiger reserves, ancient forests, and a biodiversity that rivals the finest in Asia — Vidarbha is India's premier wildlife corridor.</p>
+  </div>
+  <div class="wildlife-grid">
+    <div class="wildlife-cards">
+      <div class="wl-card reveal">
+        <div class="wl-emoji" aria-hidden="true">🐯</div>
+        <div>
+          <h3>Bengal Tigers</h3>
+          <p>Vidarbha hosts 350+ tigers across Tadoba, Melghat, and Pench reserves — the highest density in the Deccan region. Morning safaris offer exceptional sighting rates.</p>
+        </div>
+      </div>
+      <div class="wl-card reveal d1">
+        <div class="wl-emoji" aria-hidden="true">🐆</div>
+        <div>
+          <h3>Leopards & Sloth Bears</h3>
+          <p>Dense forests shelter elusive leopards and the gentle sloth bear. Melghat is particularly known for its sloth bear population living among rocky outcrops.</p>
+        </div>
+      </div>
+      <div class="wl-card reveal d2">
+        <div class="wl-emoji" aria-hidden="true">🦚</div>
+        <div>
+          <h3>Birdlife — 350+ Species</h3>
+          <p>Indian rollers, Malabar pied hornbills, paradise flycatchers, and painted storks — Vidarbha is a paradise for birders, especially around Navegaon and Pench.</p>
+        </div>
+      </div>
+      <div class="wl-card reveal d3">
+        <div class="wl-emoji" aria-hidden="true">🌿</div>
+        <div>
+          <h3>Teak & Bamboo Forests</h3>
+          <p>Ancient teak forests interspersed with bamboo groves, mahua trees, and teakwood corridors that connect reserves and protect India's biodiversity heritage.</p>
+        </div>
+      </div>
+    </div>
+    <div class="wildlife-img-col reveal d2">
+      <div class="wl-img-lg">
+        <img src="images/Birds-in-Tadoba.avif" alt="Lush green forest scenery in Vidarbha wildlife corridor" width="600" height="450" loading="lazy" decoding="async"/>
+      </div>
+      <div class="wl-img-sm-row">
+        <div class="wl-img-sm">
+          <img src="images/tiger2.avif" alt="Royal Bengal Tiger resting in Tadoba-Andhari Tiger Reserve" width="300" height="300" loading="lazy" decoding="async"/>
+        </div>
+        <div class="wl-img-sm">
+          <img src="images/Indian-Bison.avif" alt="Tiger spotted during a jungle safari in Vidarbha" width="300" height="300" loading="lazy" decoding="async"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section class="culture" id="culture" aria-labelledby="culture-heading">
+  <div class="reveal">
+    <p class="sec-tag">✦ Heritage & Traditions</p>
+    <h2 class="sec-title" id="culture-heading">LIVING <em>Culture</em></h2>
+    <p class="sec-desc">Vidarbha's soul is woven from Gond tribal art, Varkari bhajans, medieval architecture, and the revolutionary spirit of Ambedkar and Gandhi.</p>
+  </div>
+  <div class="culture-layout">
+    <div class="culture-list">
+      <div class="cult-item reveal">
+        <div class="cult-num" aria-hidden="true">01</div>
+        <div class="cult-info">
+          <h4>Gond Tribal Art</h4>
+          <p>The Gond people of Vidarbha create vivid, intricate paintings depicting nature, mythology, and daily life — now celebrated in galleries worldwide.</p>
+        </div>
+      </div>
+      <div class="cult-item reveal d1">
+        <div class="cult-num" aria-hidden="true">02</div>
+        <div class="cult-info">
+          <h4>Ambedkar Movement</h4>
+          <p>Nagpur's Deekshabhoomi is sacred to millions of Buddhists. The Ambedkarite movement transformed Vidarbha's social fabric profoundly.</p>
+        </div>
+      </div>
+      <div class="cult-item reveal d1">
+        <div class="cult-num" aria-hidden="true">03</div>
+        <div class="cult-info">
+          <h4>Varkari Tradition</h4>
+          <p>Pilgrimages to Pandharpur pass through Vidarbha — the devotional songs (abhangas) of the Varkari saints fill the roads every year.</p>
+        </div>
+      </div>
+      <div class="cult-item reveal d2">
+        <div class="cult-num" aria-hidden="true">04</div>
+        <div class="cult-info">
+          <h4>Gondi & Marathi Folk</h4>
+          <p>Gondi folk dances, Lavani performances, Tamasha theatre — Vidarbha's performing arts blend tribal and mainstream Maharashtrian traditions.</p>
+        </div>
+      </div>
+      <div class="cult-item reveal d2">
+        <div class="cult-num" aria-hidden="true">05</div>
+        <div class="cult-info">
+          <h4>Weaving & Handicrafts</h4>
+          <p>Chanderi-style cotton weaving, bamboo craft, warli-inspired motifs, and Paithani silk — Vidarbha's artisans carry forward centuries of skill.</p>
+        </div>
+      </div>
+      <div class="cult-item reveal d3">
+        <div class="cult-num" aria-hidden="true">06</div>
+        <div class="cult-info">
+          <h4>Architecture & Temples</h4>
+          <p>Markanda temples (8th century), Bhimashankar, the Ramtek complex, and colonial Nagpur's heritage buildings — layers of history in stone.</p>
+        </div>
+      </div>
+    </div>
+    <div class="culture-imgs reveal d3">
+      <div class="cult-img-item">
+        <img src="images/gondart.avif" alt="Colourful Gond tribal art painting depicting nature and mythology" width="800" height="450" loading="lazy" decoding="async"/>
+        <div class="cult-img-caption">Gond tribal art — a living tradition</div>
+      </div>
+      <div class="cult-img-item">
+        <img src="images/folkdance.avif" alt="Gondi folk dance performance in traditional attire" width="400" height="400" loading="lazy" decoding="async"/>
+        <div class="cult-img-caption">Gondi folk dance</div>
+      </div>
+      <div class="cult-img-item">
+        <img src="images/markandatemple.avif" alt="Ancient Markanda Temple complex from the 8th century" width="400" height="400" loading="lazy" decoding="async"/>
+        <div class="cult-img-caption">Markanda Temple Complex</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD -->
+<section class="food" id="food" aria-labelledby="food-heading">
+  <div class="reveal">
+    <p class="sec-tag" style="color:var(--tiger)">✦ Taste of the Region</p>
+    <h2 class="sec-title light" id="food-heading">VIDARBHA <em>Cuisine</em></h2>
+    <p class="sec-desc light">Fiery, earthy, aromatic — Vidarbha's food mirrors the land: bold, rustic, and deeply satisfying.</p>
+  </div>
+  <div class="food-grid">
+    <article class="food-card reveal">
+      <div class="food-img"><img src="images/saojichicken.avif" alt="Saoji Mutton curry — the fiery pride of Nagpur cuisine" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Nagpur Special</div>
+        <div class="food-name">Saoji Mutton / Chicken</div>
+        <div class="food-desc">The fire-breathing pride of Nagpur — a dark, deeply spiced curry made with a secret blend of 20+ spices. Not for the faint-hearted.</div>
+      </div>
+    </article>
+    <article class="food-card reveal d1">
+      <div class="food-img"><img src="images/nagpuri-santra-burfi.avif" alt="Nagpuri Santra Barfi — orange-flavoured sweet delicacy" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Nagpur's Pride</div>
+        <div class="food-name">Nagpur Oranges & Barfi</div>
+        <div class="food-desc">The GI-tagged Nagpur Mandarin — sweet, juicy, aromatic. The orange barfi made from fresh oranges is an irresistible local delicacy.</div>
+      </div>
+    </article>
+    <article class="food-card reveal d2">
+      <div class="food-img"><img src="images/zunkabhakar.avif" alt="Zunka Bhakar — traditional gram flour dish with sorghum flatbread" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Village Soul Food</div>
+        <div class="food-name">Zunka Bhakar</div>
+        <div class="food-desc">Spiced gram flour (zunka) served with sorghum flatbread (bhakar) — the quintessential Vidarbha farmer's meal, robust and nourishing.</div>
+      </div>
+    </article>
+    <article class="food-card reveal d1">
+      <div class="food-img"><img src="images/taripoha.avif" alt="Tarri Poha — Nagpur's iconic breakfast street food" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Breakfast Classic</div>
+        <div class="food-name">Tarri Poha</div>
+        <div class="food-desc">Nagpur's iconic breakfast — flattened rice (poha) topped with spiced black chickpea curry (tarri). A street-food institution, eaten with steaming chai.</div>
+      </div>
+    </article>
+    <article class="food-card reveal d2">
+      <div class="food-img"><img src="images/patodi.avif" alt="Patodi Rassa — gram flour dumplings in tangy peanut curry" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Traditional Vidarbha</div>
+        <div class="food-name">Patodi Rassa</div>
+        <div class="food-desc">Gram flour dumplings simmered in a tangy, fiery peanut-based curry — a rustic dish that defines Vidarbha's bold palate.</div>
+      </div>
+    </article>
+    <article class="food-card reveal d3">
+      <div class="food-img"><img src="images/mahua.avif" alt="Mahua flower — sacred ingredient in tribal cuisine and ceremonies" width="400" height="300" loading="lazy" decoding="async"/></div>
+      <div class="food-body">
+        <div class="food-label">✦ Tribal Tradition</div>
+        <div class="food-name">Mahua Cuisine</div>
+        <div class="food-desc">The Mahua flower — sacred to tribal communities — is used in ceremonial drinks, laddoos, and traditional cooking passed down through generations.</div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- DISTRICTS -->
+<section class="districts" id="districts" aria-labelledby="districts-heading">
+  <div class="reveal">
+    <p class="sec-tag">✦ The 11 Districts</p>
+    <h2 class="sec-title" id="districts-heading">ACROSS <em>Vidarbha</em></h2>
+    <p class="sec-desc">Eleven districts, each with a distinct identity — from the orange groves of Nagpur to the cotton fields of Yavatmal.</p>
+  </div>
+  <div class="dist-grid">
+    <div class="dist-card reveal"><span class="dist-icon" aria-hidden="true">🍊</span><h3>Nagpur</h3><p>Orange City, Tiger Gateway, geographic centre of India</p></div>
+    <div class="dist-card reveal d1"><span class="dist-icon" aria-hidden="true">🐯</span><h3>Chandrapur</h3><p>Home to Tadoba — Maharashtra's finest tiger reserve</p></div>
+    <div class="dist-card reveal d2"><span class="dist-icon" aria-hidden="true">🌿</span><h3>Amravati</h3><p>Melghat forests, Chikhaldara hill station, Vidarbha's hill retreat</p></div>
+    <div class="dist-card reveal d3"><span class="dist-icon" aria-hidden="true">🕊️</span><h3>Wardha</h3><p>Gandhi's Sevagram — the spiritual cradle of India's freedom</p></div>
+    <div class="dist-card reveal"><span class="dist-icon" aria-hidden="true">⛏️</span><h3>Gondia</h3><p>Rice bowl of Vidarbha, Navegaon National Park, serene lakes</p></div>
+    <div class="dist-card reveal d1"><span class="dist-icon" aria-hidden="true">🌾</span><h3>Yavatmal</h3><p>Cotton country — vast farmlands and the Pus agricultural heritage</p></div>
+    <div class="dist-card reveal d2"><span class="dist-icon" aria-hidden="true">🏛️</span><h3>Bhandara</h3><p>Land of lakes — Itiadoh dam, forests and ancient temples</p></div>
+    <div class="dist-card reveal d3"><span class="dist-icon" aria-hidden="true">🌊</span><h3>Gadchiroli</h3><p>Richest forest district — tribal heartland and eco-tourism hub</p></div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section class="facilities" id="facilities" aria-labelledby="facilities-heading">
+  <div class="reveal">
+    <p class="sec-tag">✦ Traveller Services</p>
+    <h2 class="sec-title" id="facilities-heading">WORLD-CLASS <em>Facilities</em></h2>
+    <p class="sec-desc">Vidarbha has invested heavily in tourism infrastructure — ensuring safe, comfortable, and connected travel experiences.</p>
+  </div>
+  <div class="fac-tabs" role="tablist" aria-label="Facilities categories">
+    <button class="fac-tab active" role="tab" aria-selected="true" aria-controls="fac-transport" id="tab-transport" onclick="switchFac('transport',this)">Transport</button>
+    <button class="fac-tab" role="tab" aria-selected="false" aria-controls="fac-stay" id="tab-stay" onclick="switchFac('stay',this)">Stay & Hotels</button>
+    <button class="fac-tab" role="tab" aria-selected="false" aria-controls="fac-health" id="tab-health" onclick="switchFac('health',this)">Healthcare</button>
+    <button class="fac-tab" role="tab" aria-selected="false" aria-controls="fac-safari" id="tab-safari" onclick="switchFac('safari',this)">Safari & Eco</button>
+  </div>
+  <div class="fac-panel active" id="fac-transport" role="tabpanel" aria-labelledby="tab-transport">
+    <div class="fac-card reveal"><div class="fac-icon" aria-hidden="true">✈️</div><h3>Dr. Babasaheb Ambedkar International Airport</h3><p>Nagpur's international airport connects to Mumbai, Delhi, Hyderabad, Bengaluru and 10+ cities. International flights to Dubai, Singapore and Middle East.</p></div>
+    <div class="fac-card reveal d1"><div class="fac-icon" aria-hidden="true">🚂</div><h3>Railway Connectivity</h3><p>Nagpur is a major railway junction on Mumbai-Howrah and Delhi-Chennai routes. Express trains connect all 11 districts. Jan Shatabdi to Mumbai in 8 hrs.</p></div>
+    <div class="fac-card reveal d2"><div class="fac-icon" aria-hidden="true">🛣️</div><h3>National Highways</h3><p>NH-44 (India's longest highway) passes through Nagpur. NH-6, NH-7 link Vidarbha to all major cities. MSRTC buses cover every district daily.</p></div>
+  </div>
+  <div class="fac-panel" id="fac-stay" role="tabpanel" aria-labelledby="tab-stay">
+    <div class="fac-card reveal"><div class="fac-icon" aria-hidden="true">🏨</div><h3>Forest Lodges & Resorts</h3><p>MTDC-run forest rest houses and private eco-resorts at Tadoba, Melghat, and Pench offer immersive stays just minutes from the jungle.</p></div>
+    <div class="fac-card reveal d1"><div class="fac-icon" aria-hidden="true">⭐</div><h3>5-Star Hotels in Nagpur</h3><p>Radisson Blu, Le Meridien, Tuli Imperial, and The Pride — Nagpur offers international-standard hospitality for business and leisure travellers.</p></div>
+    <div class="fac-card reveal d2"><div class="fac-icon" aria-hidden="true">🏕️</div><h3>Eco Camps & Homestays</h3><p>Tribal homestays in Chikhaldara and Gadchiroli offer authentic cultural immersion. MTDC eco-camps provide budget-friendly nature retreats.</p></div>
+  </div>
+  <div class="fac-panel" id="fac-health" role="tabpanel" aria-labelledby="tab-health">
+    <div class="fac-card reveal"><div class="fac-icon" aria-hidden="true">🏥</div><h3>AIIMS Nagpur</h3><p>One of India's premier AIIMS institutes — providing world-class medical care to the entire Vidarbha region with 24/7 emergency and specialist services.</p></div>
+    <div class="fac-card reveal d1"><div class="fac-icon" aria-hidden="true">🚑</div><h3>Tourist Medical Helpline</h3><p>Maharashtra Tourism helpline: 1800-111-363 (toll-free). Rapid response units at all major tourist sites. Government hospitals in every district HQ.</p></div>
+    <div class="fac-card reveal d2"><div class="fac-icon" aria-hidden="true">💊</div><h3>Pharmacy Network</h3><p>24-hour pharmacies in all city areas. Jan Aushadhi Kendras provide generic medicines at subsidised prices throughout Vidarbha.</p></div>
+  </div>
+  <div class="fac-panel" id="fac-safari" role="tabpanel" aria-labelledby="tab-safari">
+    <div class="fac-card reveal"><div class="fac-icon" aria-hidden="true">🎫</div><h3>Online Safari Booking</h3><p>Tadoba and Melghat safari permits can be booked online via Maharashtra Forest Department portal. Zones open year-round except peak monsoon.</p></div>
+    <div class="fac-card reveal d1"><div class="fac-icon" aria-hidden="true">🌿</div><h3>Eco-Tourism Guides</h3><p>Certified naturalist guides available at all reserves. MTDC and private operators offer full safari packages including accommodation, meals and transport.</p></div>
+    <div class="fac-card reveal d2"><div class="fac-icon" aria-hidden="true">📡</div><h3>Digital & Connectivity</h3><p>4G network covers Nagpur, Chandrapur, Amravati. Forest zone Wi-Fi at major tiger lodges. UPI and digital payments accepted at all tourism points.</p></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery" aria-labelledby="gallery-heading">
+  <div class="reveal">
+    <p class="sec-tag" style="color:var(--tiger)">✦ Visual Journey</p>
+    <h2 class="sec-title light" id="gallery-heading">PHOTO <em>Gallery</em></h2>
+    <p class="sec-desc light">Vidarbha through the lens — from tiger stripes to orange groves.</p>
+  </div>
+  <div class="gal-grid" role="list">
+    <div class="gal-item reveal" role="listitem"><img src="images/ChikhaldaraHillStation.avif" alt="Chikhaldara Hill Station panoramic view, Vidarbha" width="400" height="300" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Chikhaldara</span></div></div>
+    <div class="gal-item reveal d1" role="listitem"><img src="images/Vidarbha-featured.avif" alt="Scenic beauty of Vidarbha landscape" width="400" height="250" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Vidarbha</span></div></div>
+    <div class="gal-item reveal d2" role="listitem"><img src="images/cranes.avif" alt="Cranes and migratory birds in Vidarbha wetlands" width="400" height="350" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Cranes</span></div></div>
+    <div class="gal-item reveal" role="listitem"><img src="images/nature3.avif" alt="Lush forest and nature reserve in Vidarbha" width="400" height="300" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Forest</span></div></div>
+    <div class="gal-item reveal d1" role="listitem"><img src="images/Khindsi-Lake-3.avif" alt="Peaceful Khindsi Lake at sunset near Nagpur" width="400" height="320" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Khindsi Lake</span></div></div>
+    <div class="gal-item reveal d2" role="listitem"><img src="images/tigerimage3.avif" alt="Royal Bengal Tiger in its natural habitat, Vidarbha tiger reserve" width="400" height="280" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Tiger</span></div></div>
+    <div class="gal-item reveal d1" role="listitem"><img src="images/gond4.avif" alt="Gond tribal artwork with intricate patterns and nature motifs" width="400" height="320" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Gond Art</span></div></div>
+    <div class="gal-item reveal d2" role="listitem"><img src="images/swaminaeayanmandir.avif" alt="Swaminarayan Mandir, Nagpur — grand religious architecture" width="400" height="280" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Swaminarayan Mandir</span></div></div>
+    <div class="gal-item reveal" role="listitem"><img src="images/food.avif" alt="Traditional Maharashtrian Thali with multiple dishes" width="400" height="350" loading="lazy" decoding="async"/><div class="gal-overlay" aria-hidden="true"><span>Maharashtrian Thali</span></div></div>
+  </div>
+</section>
+
+<!-- REACH -->
+<section class="reach" id="reach" aria-labelledby="reach-heading">
+  <div class="reveal">
+    <p class="sec-tag" style="color:var(--tiger)">✦ Plan Your Trip</p>
+    <h2 class="sec-title light" id="reach-heading">HOW TO <em>Reach</em></h2>
+    <p class="sec-desc light">Vidarbha is well-connected from all major cities — getting here is the easy part.</p>
+  </div>
+  <div class="reach-grid">
+    <div class="reach-card reveal"><span class="reach-icon" aria-hidden="true">✈️</span><h3>By Air</h3><p>Dr. Babasaheb Ambedkar International Airport, Nagpur. 1.5 hrs from Mumbai, 1.5 hrs from Delhi. International flights to Dubai & Gulf.</p></div>
+    <div class="reach-card reveal d1"><span class="reach-icon" aria-hidden="true">🚂</span><h3>By Train</h3><p>Nagpur Junction — major junction on 4 national corridors. Howrah Mail, Rajdhani, Duronto connect to all metros. 8 hrs from Mumbai.</p></div>
+    <div class="reach-card reveal d2"><span class="reach-icon" aria-hidden="true">🚌</span><h3>By Road</h3><p>NH-44 (Srinagar–Kanyakumari) passes through Nagpur. MSRTC luxury buses from Pune, Mumbai, Hyderabad. 12 hrs drive from Mumbai.</p></div>
+    <div class="reach-card reveal d3"><span class="reach-icon" aria-hidden="true">🗓️</span><h3>Best Season</h3><p>Oct–Feb: ideal for sightseeing (15–28°C). Oct–May: safari season. Feb–May: orange harvest. Monsoon (Jun–Sep): lush forests, fewer crowds.</p></div>
+  </div>
+  <div class="reach-highlight reveal">
+    <span style="font-size:2.5rem;" aria-hidden="true">📍</span>
+    <p><strong>Zero Mile, Nagpur</strong> — the historic geodetic datum point marking the <strong>geographic centre of India</strong>. Installed by the British Survey of India in 1907, Zero Mile in Nagpur served as the reference point for all road distances across the country.</p>
+  </div>
+</section>
+</main>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="auth-modal" role="dialog" aria-labelledby="authTitle" aria-hidden="true">
+  <div class="auth-content">
+    <button class="auth-close" onclick="closeAuthModal()" aria-label="Close authentication modal">✕</button>
+    <div class="auth-header">
+      <p class="auth-badge">Vidarbha Tourism</p>
+      <h2 class="auth-title" id="authTitle">Join the <em>Journey</em></h2>
+    </div>
+    <div class="auth-body">
+    <div class="auth-tabs">
+      <div class="auth-tab" onclick="switchAuthTab('login')">Login</div>
+      <div class="auth-tab active" onclick="switchAuthTab('signup')">Sign Up</div>
+    </div>
+    
+    <!-- LOGIN FORM -->
+    <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+      <button type="button" class="google-btn" onclick="handleGoogleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:.6rem;flex-shrink:0">
+          <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.34 0-4.33-1.58-5.04-3.71H.96v2.34C2.44 15.98 5:48 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.96 10.7c-.18-.54-.28-1.11-.28-1.7s.1-1.16.28-1.7V4.96H.96A8.996 8.996 0 000 9c0 1.45.35 2.83.96 4.04l3-2.34z"/>
+          <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l3 2.34C4.67 5.16 6.66 3.58 9 3.58z"/>
+        </svg>
+        Continue with Google
+      </button>
+      <div class="or-divider"><span>or</span></div>
+      <div class="form-group">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" required placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="auth-submit">Login</button>
+      <div class="form-link">
+        <a href="#" onclick="event.preventDefault(); switchAuthTab('signup')">Don't have an account? Sign up</a>
+      </div>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form class="auth-form active" id="signupForm" onsubmit="handleSignup(event)">
+      <button type="button" class="google-btn" onclick="handleGoogleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:.6rem;flex-shrink:0">
+          <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.34 0-4.33-1.58-5.04-3.71H.96v2.34C2.44 15.98 5:48 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.96 10.7c-.18-.54-.28-1.11-.28-1.7s.1-1.16.28-1.7V4.96H.96A8.996 8.996 0 000 9c0 1.45.35 2.83.96 4.04l3-2.34z"/>
+          <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l3 2.34C4.67 5.16 6.66 3.58 9 3.58z"/>
+        </svg>
+        Continue with Google
+      </button>
+      <div class="or-divider"><span>or</span></div>
+      <div class="form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" required placeholder="Your Full Name">
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" required placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label for="signupConfirm">Confirm Password</label>
+        <input type="password" id="signupConfirm" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="auth-submit">Create Account</button>
+      <div class="form-link">
+        <a href="#" onclick="event.preventDefault(); switchAuthTab('login')">Already have an account? Login</a>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="foot-logo">Vidarbha</div>
+      <div class="foot-sub">Maharashtra, India</div>
+      <p>Vidarbha — where ancient forests, wild tigers, the fragrance of oranges, and the soul of Gandhi meet in one magnificent region of India's heartland.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#about">About Vidarbha</a></li>
+        <li><a href="#tourism">Top Destinations</a></li>
+        <li><a href="#wildlife">Wildlife & Safari</a></li>
+        <li><a href="#culture">Culture & Heritage</a></li>
+        <li><a href="#food">Local Cuisine</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plan Your Visit</h4>
+      <ul>
+        <li><a href="#facilities">Facilities</a></li>
+        <li><a href="#reach">How to Reach</a></li>
+        <li><a href="#districts">11 Districts</a></li>
+        <li><a href="#gallery">Photo Gallery</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Vidarbha Tourism. Proudly part of Incredible Maharashtra.</p>
+    <p class="footer-maha">ज महाराष्ट्र — Jai Maharashtra</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, onAuthStateChanged, updateProfile,
+    GoogleAuthProvider, signInWithPopup, browserLocalPersistence, setPersistence
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyASeGJ2py7sUqRKp29B8nSNzQyE5xKdsxk",
+    authDomain: "vidarbhatourism-c2271.firebaseapp.com",
+    projectId: "vidarbhatourism-c2271",
+    storageBucket: "vidarbhatourism-c2271.firebasestorage.app",
+    messagingSenderId: "33181293249",
+    appId: "1:33181293249:web:cf597cbe72922d2332d240",
+    measurementId: "G-7HWLMSPPLP"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  setPersistence(auth, browserLocalPersistence).catch(function(err){ console.error('Persistence error:', err); });
+  const googleProvider = new GoogleAuthProvider();
+  let currentUser = null;
+  let pendingAuthRedirect = null;
+  
+  function completePendingRedirect() {
+    if (pendingAuthRedirect) {
+      const redirect = pendingAuthRedirect;
+      pendingAuthRedirect = null;
+      sessionStorage.removeItem('pendingAuthRedirect');
+      setTimeout(() => { window.location.href = redirect; }, 400);
+    }
+  }
+  
+  function showToast(message, type = 'success') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.innerHTML = `<span class="toast-icon">${type === 'success' ? '✓' : '⚠'}</span>
+    <span class="toast-text">${message}</span>`;
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => toast.classList.add('show'));
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 500);
+  }, 3500);
+}
+
+  // --- SIGNUP ---
+  window.handleSignup = async function(e) {
+    e.preventDefault();
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirm = document.getElementById('signupConfirm').value;
+
+    if (password !== confirm) {
+      showToast('Passwords do not match.', 'error');
+      return;
+    }
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName: name });
+      currentUser = cred.user;
+      showToast('Account created! Welcome to Vidarbha Tourism.', 'success');
+      closeAuthModal();
+      document.getElementById('signupForm').reset();
+      completePendingRedirect();
+    } catch (err) {
+      showToast('Signup failed: ' + err.message, 'error');
+    }
+  };
+
+  // --- LOGIN ---
+  window.handleLogin = async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      currentUser = cred.user;
+      showToast('Welcome back!', 'success');
+      closeAuthModal();
+      document.getElementById('loginForm').reset();
+      completePendingRedirect();
+    } catch (err) {
+      showToast('Login failed: ' + err.message, 'error');
+    }
+  };
+
+  // --- LOGOUT ---
+  window.handleLogout = async function() {
+    await signOut(auth);
+    sessionStorage.removeItem('pendingAuthRedirect');
+    location.reload();
+  };
+
+  // --- GOOGLE SIGN-IN (popup) ---
+  window.handleGoogleSignIn = async function() {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      currentUser = result.user;
+      showToast('Welcome, ' + (result.user.displayName || result.user.email) + '!', 'success');
+      closeAuthModal();
+      completePendingRedirect();
+    } catch (err) {
+      console.error('Google Sign-In Error:', err.code, err.message);
+      let message = 'Sign-in failed. Please try again.';
+      if (err.code === 'auth/operation-not-allowed') {
+        message = 'Google sign-in is not enabled. Contact support.';
+      } else if (err.code === 'auth/popup-blocked') {
+        message = 'Popup was blocked. Please allow popups and try again.';
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        message = 'Sign-in was cancelled.';
+      } else if (err.code === 'auth/unauthorized-domain') {
+        message = 'This domain is not authorized for Google sign-in. Contact support.';
+      }
+      showToast(message, 'error');
+    }
+  };
+
+  // --- WATCH LOGIN STATE ---
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    const btn = document.getElementById('registerBtn');
+    const label = document.getElementById('registerBtnLabel');
+    const desktopAuth = document.getElementById('navAuthDesktop');
+    if (user) {
+      const firstName = (user.displayName || user.email || 'Account').split(' ')[0];
+      if (btn && label) {
+        btn.classList.add('is-logged-in');
+        btn.setAttribute('onclick', 'handleLogout()');
+        label.textContent = firstName;
+      }
+      if (desktopAuth) {
+        desktopAuth.innerHTML = `<span style="color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.05em;">
+          ${firstName}</span>
+          <button class="auth-btn" onclick="handleLogout()">Logout</button>`;
+      }
+    } else {
+      if (btn && label) {
+        btn.classList.remove('is-logged-in');
+        btn.setAttribute('onclick', "openAuthModal('signup')");
+        label.textContent = 'Register';
+      }
+      if (desktopAuth) {
+        desktopAuth.innerHTML = `<button class="auth-btn login" onclick="openAuthModal('login')">Login</button>
+          <button class="auth-btn" onclick="openAuthModal('signup')">Sign Up</button>`;
+      }
+    }
+  });
+
+  // --- GATE CERTAIN BUTTONS BEHIND LOGIN ---
+  document.querySelectorAll('.auth-gated').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      const isLoggedIn = auth.currentUser !== null || currentUser !== null;
+      if (!isLoggedIn) {
+        e.preventDefault();
+        const href = el.getAttribute('href');
+        if (href && (href.endsWith('.html') || href.startsWith('#'))) {
+          pendingAuthRedirect = href;
+          sessionStorage.setItem('pendingAuthRedirect', href);
+        }
+        showToast('Please log in to access ' + (el.dataset.label || 'this') + '.', 'error');
+        openAuthModal('login');
+      }
+    });
+  });
+</script>
+
+<script>
+(function(){
+  // NAV SCROLL
+  var navbar=document.getElementById('navbar');
+  var ticking=false;
+  window.addEventListener('scroll',function(){
+    if(!ticking){
+      requestAnimationFrame(function(){
+        navbar.classList.toggle('scrolled',window.scrollY>60);
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+
+  // MOBILE MENU TOGGLE
+  var menuToggle=document.getElementById('menuToggle');
+  var navLinks=document.getElementById('navLinks');
+  menuToggle.addEventListener('click',function(){
+    var isOpen=navLinks.classList.toggle('active');
+    menuToggle.setAttribute('aria-expanded',isOpen);
+    menuToggle.textContent=isOpen?'✕':'☰';
+  });
+
+  // Close menu on nav-link click
+  navLinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      navLinks.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded','false');
+      menuToggle.textContent='☰';
+    });
+  });
+
+  // REVEAL ON SCROLL
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+  // FACILITY TABS
+  window.switchFac=function(id,btn){
+    document.querySelectorAll('.fac-panel').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.fac-tab').forEach(function(b){
+      b.classList.remove('active');
+      b.setAttribute('aria-selected','false');
+    });
+    document.getElementById('fac-'+id).classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+  };
+
+  // AUTH MODAL FUNCTIONS
+  window.openAuthModal=function(tab){
+    var modal=document.getElementById('authModal');
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
+    switchAuthTab(tab||'login');
+  };
+
+  window.closeAuthModal=function(){
+    var modal=document.getElementById('authModal');
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden','true');
+  };
+
+  window.switchAuthTab=function(tab){
+    document.querySelectorAll('.auth-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.auth-form').forEach(function(f){f.classList.remove('active');});
+    document.querySelector('.auth-tab:nth-child('+(tab==='signup'?2:1)+')').classList.add('active');
+    document.getElementById(tab+'Form').classList.add('active');
+  };
+
+  // Close modal on background click
+  document.getElementById('authModal').addEventListener('click',function(e){
+    if(e.target===this)closeAuthModal();
+  });
+
+  // Keyboard shortcut to close modal (Escape key)
+  window.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      closeAuthModal();
+    }
+  });
+})();
+
+</script>
+
+</body>
+</html>

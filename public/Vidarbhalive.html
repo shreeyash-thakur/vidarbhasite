@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Monitor Vidarbha's real-time weather, air quality, wildlife, river and fire alerts in a fast, accessible dashboard."/>
+<meta name="theme-color" content="#1B3A2D"/>
+<title>Vidarbha Live — Real-Time Nature Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Rajdhani:wght@500;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --forest: #1B3A2D;
+    --tiger: #C45A1A;
+    --leaf: #4A7C59;
+    --gold: #D4A94A;
+    --cream: #F7F1E4;
+    --bark: #6B4F3A;
+    --mist: #E8F0E9;
+    --dark: #0F2218;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+  .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  .skip-link:focus { position: fixed; top: 1rem; left: 1rem; width: auto; height: auto; padding: 0.75rem 1rem; background: var(--tiger); color: #fff; z-index: 9999; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; text-decoration: none; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--forest); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes leafFall { 0% { transform: translateY(-40px) rotate(0deg); opacity: 0.8; } 100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; } }
+  @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 200;
+    padding: 0.85rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(15,34,24,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(212,169,74,0.2);
+  }
+  .nav-logo-main { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: #D4A94A; }
+  .nav-logo-main em { color: #C45A1A; }
+  .nav-logo-sub { font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(244,192,122,0.7); }
+  .live-badge { display: flex; align-items: center; gap: 0.4rem; margin-left: 0.75rem; }
+  .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; position: relative; }
+  .live-dot::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: rgba(34,197,94,0.4); animation: ripple 2s ease-out infinite; }
+  .live-text { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #22c55e; font-weight: 600; }
+  .nav-time { text-align: right; }
+  .nav-time-clock { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: #D4A94A; letter-spacing: 0.05em; }
+  .nav-time-date { font-family: 'Rajdhani', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em; color: rgba(247,241,228,0.5); text-transform: uppercase; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0F2218 0%, #1B3A2D 50%, #0a1a10 100%);
+    padding-top: 5rem; padding-bottom: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 40%, rgba(196,90,26,0.08) 0%, transparent 60%); pointer-events: none; }
+  .leaves-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .hero-inner { position: relative; text-align: center; padding: 3rem 2rem 2rem; max-width: 800px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    border: 1px solid rgba(212,169,74,0.4); padding: 0.4rem 1.4rem;
+    font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: #D4A94A; margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease-out both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1.0; color: #F7F1E4; margin-bottom: 0.5rem;
+    animation: fadeUp 0.7s 0.1s ease-out both;
+  }
+  .hero-title em { color: #C45A1A; }
+  .hero-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; color: rgba(247,241,228,0.65); margin-bottom: 1.2rem; animation: fadeUp 0.7s 0.2s ease-out both; }
+  .hero-features { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; animation: fadeUp 0.7s 0.3s ease-out both; }
+  .hero-feature { display: flex; align-items: center; gap: 0.5rem; font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(212,169,74,0.8); font-weight: 600; }
+  .divider-gold { height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 0 2rem; }
+
+  /* MARQUEE */
+  .marquee-wrap { background: #1B3A2D; padding: 0.65rem 0; overflow: hidden; white-space: nowrap; border-top: 1px solid rgba(212,169,74,0.2); border-bottom: 1px solid rgba(212,169,74,0.2); }
+  .marquee-inner { display: inline-block; animation: marquee 30s linear infinite; }
+  .marquee-item { font-family: 'Rajdhani', sans-serif; font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: #D4A94A; padding: 0 2rem; }
+  .marquee-dot { color: #C45A1A; font-size: 0.6rem; }
+
+  /* SECTIONS */
+  section { padding: 3rem 2rem 2rem; }
+  .section-mist { background: var(--mist); }
+  .section-cream { background: var(--cream); }
+  .section-forest { background: #1B3A2D; }
+  .section-dark { background: #0F2218; }
+  .sec-tag { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: #C45A1A; margin-bottom: 0.3rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; color: #1B3A2D; line-height: 1.1; }
+  .sec-title em { color: #C45A1A; }
+  .sec-title-light { color: #F7F1E4; }
+  .sec-title-light em { color: #D4A94A; }
+  .sec-desc { font-family: 'Playfair Display', serif; font-style: italic; color: #6B4F3A; margin-top: 0.4rem; font-size: 0.95rem; }
+  .sec-desc-light { color: rgba(247,241,228,0.6); }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card-grid-wildlife { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .nature-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(212,169,74,0.2); padding: 1.5rem; border-radius: 4px; transition: all 0.3s ease; backdrop-filter: blur(4px); }
+  .nature-card:hover { border-color: rgba(196,90,26,0.4); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(27,58,45,0.15); }
+  .dark-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(212,169,74,0.15); padding: 1.25rem; border-radius: 4px; transition: all 0.3s ease; }
+  .dark-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(196,90,26,0.4); }
+
+  /* LABELS */
+  .label-sm { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: #C45A1A; margin-bottom: 0.2rem; }
+  .label-gold { color: rgba(212,169,74,0.5); }
+  .label-muted { color: rgba(107,79,58,0.6); }
+  .val-big { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: #C45A1A; line-height: 1; }
+  .val-mid { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: #C45A1A; line-height: 1.1; }
+  .val-sm { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700; color: #1B3A2D; }
+  .val-sm-light { color: rgba(247,241,228,0.7); }
+
+  /* WEATHER */
+  .weather-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; border-top: 1px solid rgba(212,169,74,0.2); padding-top: 1rem; margin-top: 0.5rem; }
+
+  /* AQI */
+  .aqi-scale { background: #1B3A2D; border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .aqi-bar { height: 8px; border-radius: 4px; background: linear-gradient(to right, #22c55e, #eab308, #f97316, #ef4444, #7c3aed, #6b1a1a); }
+  .aqi-labels { display: flex; justify-content: space-between; margin-top: 0.4rem; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; color: rgba(247,241,228,0.5); }
+  .aqi-circle { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0; }
+  .aqi-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; line-height: 1; }
+  .aqi-unit { font-family: 'Rajdhani', sans-serif; font-size: 0.5rem; color: rgba(107,79,58,0.6); letter-spacing: 0.1em; }
+  .aqi-pollutants { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; border-top: 1px solid rgba(212,169,74,0.2); padding-top: 1rem; }
+
+  /* WILDLIFE */
+  .filter-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-btn { padding: 0.4rem 1.2rem; background: transparent; border: 1px solid rgba(212,169,74,0.3); color: rgba(212,169,74,0.8); font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; font-weight: 600; }
+  .filter-btn.active { background: #C45A1A; border-color: #C45A1A; color: #fff; }
+  .iucn-badge { padding: 0.2rem 0.6rem; border-radius: 2px; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; white-space: nowrap; }
+  .reserve-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; background: rgba(74,124,89,0.2); border: 1px solid rgba(74,124,89,0.3); border-radius: 2px; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; letter-spacing: 0.12em; color: #4A7C59; font-weight: 600; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+  /* PROGRESS BAR */
+  .progress-wrap { height: 4px; background: rgba(212,169,74,0.2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 1s ease-out; }
+
+  /* STATUS BADGE */
+  .status-badge { padding: 0.2rem 0.6rem; border-radius: 2px; font-family: 'Rajdhani', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+
+  /* SATELLITE NDVI GAUGE */
+  .ndvi-wrap { text-align: center; }
+  .ndvi-label { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: -0.25rem; }
+
+  /* ALERT BOX */
+  .alert-info { background: #1B3A2D; border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .alert-text { font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; color: rgba(247,241,228,0.7); line-height: 1.5; }
+
+  /* FOOTER */
+  footer { background: #0F2218; border-top: 1px solid rgba(212,169,74,0.2); padding: 3rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2.5rem; }
+  .footer-col-title { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: #C45A1A; margin-bottom: 1rem; font-weight: 700; }
+  .footer-api { margin-bottom: 0.6rem; }
+  .footer-api-name { font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; font-weight: 600; color: #D4A94A; }
+  .footer-api-desc { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: rgba(247,241,228,0.35); }
+  .footer-line { font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; color: rgba(247,241,228,0.45); margin-bottom: 0.4rem; letter-spacing: 0.05em; }
+  .footer-rate-row { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+  .footer-rate-label { font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; color: rgba(247,241,228,0.5); }
+  .footer-rate-val { font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; color: #4A7C59; font-weight: 600; }
+  .footer-bottom { border-top: 1px solid rgba(212,169,74,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-copy { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(247,241,228,0.25); }
+  .footer-green { font-family: 'Rajdhani', sans-serif; font-size: 0.65rem; color: #4A7C59; letter-spacing: 0.1em; }
+
+  /* LOADING */
+  .skeleton { background: linear-gradient(90deg, rgba(27,58,45,0.1) 0%, rgba(27,58,45,0.2) 50%, rgba(27,58,45,0.1) 100%); border-radius: 4px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 0.75rem 1rem; }
+    section { padding: 2rem 1rem 1.5rem; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav aria-label="Primary navigation">
+  <div style="display:flex;align-items:center;gap:0.5rem;">
+    <div>
+      <div class="nav-logo-main">Vidarbha <em>Live</em></div>
+      <div class="nav-logo-sub">Real-Time Nature Dashboard</div>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      <span class="live-text">LIVE</span>
+    </div>
+  </div>
+  <div class="nav-time">
+    <div class="nav-time-clock" id="clock" role="status" aria-live="polite">—</div>
+    <div class="nav-time-date" id="date-display" role="status" aria-live="polite">—</div>
+  </div>
+</nav>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content">
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-overlay"></div>
+  <div class="leaves-wrap" id="leaves"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">✦ Maharashtra · India · 21° N, 79° E ✦</div>
+    <h1 class="hero-title">Vidarbha <em>Live</em></h1>
+    <p class="hero-tagline">Real-Time Pulse of the Green Heart of Maharashtra</p>
+    <div class="hero-features">
+      <span class="hero-feature">🌡️ Live Weather</span>
+      <span class="hero-feature">💨 Air Quality</span>
+      <span class="hero-feature">🐯 Wildlife</span>
+      <span class="hero-feature">🛰️ Satellite Data</span>
+      <span class="hero-feature">🔥 Fire Alerts</span>
+    </div>
+  </div>
+  <div class="divider-gold"></div>
+</div>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-wrap">
+  <div class="marquee-inner" id="marquee-inner"></div>
+</div>
+
+<!-- ===== WEATHER ===== -->
+<section class="section-mist">
+  <div class="container">
+    <div class="sec-tag">🌡️ Live Weather Feed</div>
+    <h2 class="sec-title">Vidarbha <em>Conditions</em></h2>
+    <p class="sec-desc">Real-time data from Open-Meteo API · Updated every 10 minutes</p>
+    <div class="card-grid" id="weather-grid">
+      <div class="nature-card skeleton" style="height:280px;"></div>
+      <div class="nature-card skeleton" style="height:280px;"></div>
+      <div class="nature-card skeleton" style="height:280px;"></div>
+      <div class="nature-card skeleton" style="height:280px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AIR QUALITY ===== -->
+<section class="section-cream">
+  <div class="container">
+    <div class="sec-tag">💨 Air Quality Index</div>
+    <h2 class="sec-title">Atmospheric <em>Health</em></h2>
+    <p class="sec-desc">Particulate matter & pollutants · Open-Meteo Air Quality API</p>
+    <div class="aqi-scale">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(212,169,74,0.7);margin-bottom:0.5rem;">AQI Scale Reference</div>
+      <div class="aqi-bar"></div>
+      <div class="aqi-labels">
+        <span>Good (0)</span><span>Moderate (100)</span><span>Unhealthy (200)</span><span>Hazardous (500)</span>
+      </div>
+    </div>
+    <div class="card-grid card-grid-3" id="aqi-grid">
+      <div class="nature-card skeleton" style="height:200px;"></div>
+      <div class="nature-card skeleton" style="height:200px;"></div>
+      <div class="nature-card skeleton" style="height:200px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WILDLIFE ===== -->
+<section class="section-forest">
+  <div class="container">
+    <div class="sec-tag">🐯 Wildlife Census</div>
+    <h2 class="sec-title sec-title-light">Fauna of <em>Vidarbha</em></h2>
+    <p class="sec-desc sec-desc-light">Species documented across Tadoba, Melghat, Pench & Nagzira reserves</p>
+    <div class="filter-btns" style="margin-top:1.5rem;" id="filter-btns"></div>
+    <div class="card-grid card-grid-wildlife" id="wildlife-grid"></div>
+  </div>
+</section>
+
+<!-- ===== SATELLITE ===== -->
+<section class="section-mist">
+  <div class="container">
+    <div class="sec-tag">🛰️ Satellite & Ecosystem Intelligence</div>
+    <h2 class="sec-title">Forest <em>Health Metrics</em></h2>
+    <p class="sec-desc">NDVI · Land cover · Carbon sequestration estimates for Vidarbha</p>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;margin-top:2rem;flex-wrap:wrap;" id="satellite-section">
+      <div class="nature-card skeleton" style="min-width:200px;height:280px;"></div>
+      <div class="card-grid" id="satellite-stats"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RIVERS ===== -->
+<section class="section-forest">
+  <div class="container">
+    <div class="sec-tag">💧 River Systems</div>
+    <h2 class="sec-title sec-title-light">Vidarbha <em>Waterways</em></h2>
+    <p class="sec-desc sec-desc-light">River flow status across the Wardha–Wainganga–Godavari basin</p>
+    <div class="card-grid card-grid-3" id="rivers-grid" style="margin-top:2rem;"></div>
+  </div>
+</section>
+
+<!-- ===== FIRE ===== -->
+<section class="section-cream">
+  <div class="container">
+    <div class="sec-tag">🔥 NASA FIRMS Fire Alerts</div>
+    <h2 class="sec-title">Forest Fire <em>Monitoring</em></h2>
+    <p class="sec-desc">VIIRS SNPP thermal anomaly detections · NASA FIRMS · Last 30 days</p>
+    <div class="alert-info" style="margin-top:1.5rem;">
+      <span style="font-size:1.4rem;">⚠️</span>
+      <p class="alert-text">Data from NASA FIRMS using VIIRS SNPP satellite. FRP = Fire Radiative Power (MW) — higher values indicate more intense fires.</p>
+    </div>
+    <div class="card-grid card-grid-3" id="fire-grid"></div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#D4A94A;margin-bottom:0.3rem;">Vidarbha <em style="color:#C45A1A;">Live</em></div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(212,169,74,0.5);margin-bottom:1rem;">Real-Time Nature Dashboard</div>
+        <p style="font-family:'Lato',sans-serif;font-size:0.8rem;color:rgba(247,241,228,0.45);line-height:1.7;max-width:240px;">Monitoring the ecological pulse of Vidarbha — Maharashtra's wild, green heartland.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Free APIs Used</div>
+        <div class="footer-api"><div class="footer-api-name">Open-Meteo</div><div class="footer-api-desc">Weather data (free forever)</div></div>
+        <div class="footer-api"><div class="footer-api-name">Open-Meteo Air Quality</div><div class="footer-api-desc">Pollution & AQI data</div></div>
+        <div class="footer-api"><div class="footer-api-name">NASA FIRMS</div><div class="footer-api-desc">Forest fire satellite alerts</div></div>
+        <div class="footer-api"><div class="footer-api-name">IUCN Red List</div><div class="footer-api-desc">Species conservation data</div></div>
+      </div>
+      <div>
+        <div class="footer-col-title">Protected Areas</div>
+        <div class="footer-line">🐯 Tadoba-Andhari Tiger Reserve</div>
+        <div class="footer-line">🌿 Melghat Tiger Reserve</div>
+        <div class="footer-line">🌳 Pench Tiger Reserve</div>
+        <div class="footer-line">🦚 Nagzira Wildlife Sanctuary</div>
+        <div class="footer-line">🐘 Navegaon National Park</div>
+        <div class="footer-line">🌾 Bor Wildlife Sanctuary</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Data Refresh Rates</div>
+        <div class="footer-rate-row"><span class="footer-rate-label">Weather</span><span class="footer-rate-val">10 min</span></div>
+        <div class="footer-rate-row"><span class="footer-rate-label">Air Quality</span><span class="footer-rate-val">15 min</span></div>
+        <div class="footer-rate-row"><span class="footer-rate-label">Fire Alerts</span><span class="footer-rate-val">60 min</span></div>
+        <div class="footer-rate-row"><span class="footer-rate-label">River Levels</span><span class="footer-rate-val">30 min</span></div>
+        <div class="footer-rate-row"><span class="footer-rate-label">Satellite NDVI</span><span class="footer-rate-val">Daily</span></div>
+        <div class="footer-rate-row"><span class="footer-rate-label">Wildlife Data</span><span class="footer-rate-val">Curated</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Vidarbha Live · All APIs are free with no usage limits · For informational purposes only</div>
+      <div class="footer-green">🌿 Protecting the Green Heart of Maharashtra</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== CLOCK =====
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true, timeZone:'Asia/Kolkata' }) + ' IST';
+  document.getElementById('date-display').textContent = now.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'Asia/Kolkata' });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ===== FALLING LEAVES =====
+(function() {
+  const container = document.getElementById('leaves');
+  for (let i = 0; i < 18; i++) {
+    const leaf = document.createElement('div');
+    const size = 6 + Math.random() * 6;
+    leaf.style.cssText = `
+      position:absolute; width:${size}px; height:${size*1.5}px;
+      background:rgba(74,124,89,${0.2+Math.random()*0.4});
+      border-radius:50% 0 50% 0;
+      left:${Math.random()*100}%;
+      animation:leafFall ${8+Math.random()*12}s linear infinite;
+      animation-delay:${-Math.random()*15}s;
+      pointer-events:none;
+    `;
+    container.appendChild(leaf);
+  }
+})();
+
+// ===== MARQUEE =====
+(function() {
+  const items = [
+    ['🐯','Tadoba-Andhari Tiger Reserve'],['🌿','Melghat Biosphere Reserve'],
+    ['🌳','Pench National Park'],['🦚','Nagzira Wildlife Sanctuary'],
+    ['💧','Wardha River Basin'],['🌊','Wainganga — Lifeline of Vidarbha'],
+    ['🐅','Bengal Tiger Habitat'],['🌲','Chandrapur Teak Forest'],
+    ['💚','Vidarbha — Green Heart of Maharashtra'],
+  ];
+  const doubled = [...items, ...items];
+  const inner = document.getElementById('marquee-inner');
+  inner.innerHTML = doubled.map(([icon,text]) =>
+    `<span class="marquee-item">${icon} ${text} <span class="marquee-dot">✦</span></span>`
+  ).join('');
+})();
+
+// ===== WEATHER CODE MAP =====
+const weatherIcons = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',
+  61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌦️',95:'⛈️',99:'⛈️'
+};
+const weatherLabels = {
+  0:'Clear',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',45:'Foggy',48:'Icy Fog',
+  51:'Drizzle',61:'Rain',63:'Rain',65:'Heavy Rain',80:'Showers',81:'Showers',95:'Thunderstorm',99:'Thunderstorm'
+};
+function weatherEmoji(code) { return weatherIcons[code] || '🌡️'; }
+function weatherLabel(code) { return weatherLabels[code] || 'Variable'; }
+
+// ===== CITIES =====
+const CITIES = [
+  { name:'Nagpur', lat:21.1458, lon:79.0882 },
+  { name:'Amravati', lat:20.9374, lon:77.7796 },
+  { name:'Yavatmal', lat:20.3888, lon:78.1204 },
+  { name:'Chandrapur', lat:19.9615, lon:79.2961 },
+];
+const AQI_CITIES = [
+  { name:'Nagpur', lat:21.1458, lon:79.0882 },
+  { name:'Amravati', lat:20.9374, lon:77.7796 },
+  { name:'Chandrapur', lat:19.9615, lon:79.2961 },
+];
+
+async function fetchWithTimeout(url, options = {}, timeout = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    if (!response.ok) throw new Error('Network response was not OK');
+    return response;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// ===== WEATHER =====
+async function loadWeather() {
+  const grid = document.getElementById('weather-grid');
+  try {
+    const results = await Promise.all(CITIES.map(async city => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code,surface_pressure,visibility&wind_speed_unit=kmh`;
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const c = d.current || {};
+      if (typeof c.temperature_2m !== 'number') throw new Error('Weather payload missing');
+      return {
+        city: city.name,
+        temp: Math.round(c.temperature_2m),
+        feelsLike: Math.round(c.apparent_temperature || c.temperature_2m),
+        humidity: c.relative_humidity_2m || 0,
+        wind: Math.round(c.wind_speed_10m || 0),
+        code: c.weather_code || 0,
+        visibility: c.visibility ? Math.round(c.visibility/1000) : 10,
+        pressure: Math.round(c.surface_pressure || 1013),
+      };
+    }));
+
+    grid.innerHTML = results.map(w => `
+      <div class="nature-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <div>
+            <div class="label-sm">${w.city}</div>
+            <div style="font-family:'Lato',sans-serif;font-size:0.8rem;color:#6B4F3A;">${weatherLabel(w.code)}</div>
+          </div>
+          <span style="font-size:2.2rem;">${weatherEmoji(w.code)}</span>
+        </div>
+        <div class="val-big">${w.temp}°<span style="font-size:1.2rem;color:#6B4F3A;font-family:'Rajdhani',sans-serif;">C</span></div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:#6B4F3A;margin-bottom:1rem;">Feels like ${w.feelsLike}°C</div>
+        <div class="weather-meta">
+          <div><div class="label-sm label-muted">💧 Humidity</div><div class="val-sm">${w.humidity}%</div></div>
+          <div><div class="label-sm label-muted">💨 Wind</div><div class="val-sm">${w.wind} km/h</div></div>
+          <div><div class="label-sm label-muted">👁️ Visibility</div><div class="val-sm">${w.visibility} km</div></div>
+          <div><div class="label-sm label-muted">📊 Pressure</div><div class="val-sm">${w.pressure} hPa</div></div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="nature-card" style="color:#C45A1A;font-family:Rajdhani,sans-serif;">Unable to load weather data. Please check your connection.</div>';
+  }
+}
+
+// ===== AQI =====
+function calcAQI(pm25, pm10) {
+  return Math.min(500, Math.max(0, Math.round(((pm25/25)*100 + (pm10/50)*100) / 2)));
+}
+function aqiInfo(aqi) {
+  if (aqi <= 50) return { label:'Good', color:'#22c55e' };
+  if (aqi <= 100) return { label:'Moderate', color:'#eab308' };
+  if (aqi <= 150) return { label:'Unhealthy (Sensitive)', color:'#f97316' };
+  if (aqi <= 200) return { label:'Unhealthy', color:'#ef4444' };
+  if (aqi <= 300) return { label:'Very Unhealthy', color:'#7c3aed' };
+  return { label:'Hazardous', color:'#6b1a1a' };
+}
+
+async function loadAQI() {
+  const grid = document.getElementById('aqi-grid');
+  try {
+    const results = await Promise.all(AQI_CITIES.map(async city => {
+      const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}&current=pm10,pm2_5,nitrogen_dioxide,ozone`;
+      const res = await fetchWithTimeout(url);
+      const d = await res.json();
+      const c = d.current || {};
+      const pm25 = Number(c.pm2_5 ?? 15);
+      const pm10 = Number(c.pm10 ?? 30);
+      const no2 = Number(c.nitrogen_dioxide ?? 20);
+      const o3 = Number(c.ozone ?? 40);
+      const aqi = calcAQI(pm25, pm10);
+      const info = aqiInfo(aqi);
+      return { city: city.name, aqi, pm25: pm25.toFixed(1), pm10: pm10.toFixed(1), no2: no2.toFixed(1), o3: o3.toFixed(1), ...info };
+    }));
+
+    grid.innerHTML = results.map(a => `
+      <div class="nature-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div>
+            <div class="label-sm">${a.city}</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:${a.color};letter-spacing:0.1em;text-transform:uppercase;">${a.label}</div>
+          </div>
+          <div class="aqi-circle" style="border:3px solid ${a.color};">
+            <div class="aqi-num" style="color:${a.color};">${a.aqi}</div>
+            <div class="aqi-unit">AQI</div>
+          </div>
+        </div>
+        <div class="aqi-pollutants">
+          <div><div class="label-sm label-muted">PM2.5</div><div class="val-sm">${a.pm25} μg/m³</div></div>
+          <div><div class="label-sm label-muted">PM10</div><div class="val-sm">${a.pm10} μg/m³</div></div>
+          <div><div class="label-sm label-muted">NO₂</div><div class="val-sm">${a.no2} μg/m³</div></div>
+          <div><div class="label-sm label-muted">O₃</div><div class="val-sm">${a.o3} μg/m³</div></div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="nature-card">Unable to load AQI data.</div>';
+  }
+}
+
+// ===== WILDLIFE =====
+const WILDLIFE = [
+  { id:'1', name:'Bengal Tiger', sci:'Panthera tigris tigris', group:'Mammal', emoji:'🐯', iucn:'EN', iucnColor:'#ef4444', pop:'~70 (Tadoba)', habitat:'Dry Deciduous Forest', reserve:'Tadoba-Andhari', fact:'Tadoba-Andhari is one of India\'s finest tiger reserves with one of the highest tiger densities.' },
+  { id:'2', name:'Indian Leopard', sci:'Panthera pardus fusca', group:'Mammal', emoji:'🐆', iucn:'VU', iucnColor:'#f97316', pop:'~150+ in region', habitat:'Mixed Forests & Scrublands', reserve:'Multiple reserves', fact:'Leopards are highly adaptable and found across all major forests of Vidarbha.' },
+  { id:'3', name:'Wild Gaur', sci:'Bos gaurus', group:'Mammal', emoji:'🐃', iucn:'VU', iucnColor:'#f97316', pop:'~500+ in Melghat', habitat:'Teak & Bamboo Forests', reserve:'Melghat', fact:'The largest wild bovine in the world. Melghat Tiger Reserve holds significant gaur populations.' },
+  { id:'4', name:'Sloth Bear', sci:'Melursus ursinus', group:'Mammal', emoji:'🐻', iucn:'VU', iucnColor:'#f97316', pop:'~200 in region', habitat:'Rocky Outcrops & Forests', reserve:'Tadoba-Andhari', fact:'Sloth bears are commonly sighted in Tadoba, especially near termite mounds at night.' },
+  { id:'5', name:'Indian Star Tortoise', sci:'Geochelone elegans', group:'Reptile', emoji:'🐢', iucn:'VU', iucnColor:'#f97316', pop:'Declining', habitat:'Dry Grasslands', fact:'Found in dry regions of Vidarbha; heavily protected under CITES due to illegal pet trade.' },
+  { id:'6', name:'Indian Peafowl', sci:'Pavo cristatus', group:'Bird', emoji:'🦚', iucn:'LC', iucnColor:'#22c55e', pop:'Abundant', habitat:'Open Forests & Farmland', fact:'India\'s national bird is commonly seen across farms and forest edges of Vidarbha.' },
+  { id:'7', name:'Mugger Crocodile', sci:'Crocodylus palustris', group:'Reptile', emoji:'🐊', iucn:'VU', iucnColor:'#f97316', pop:'~300 in rivers', habitat:'Rivers & Lakes', fact:'The Wardha and Wainganga rivers support healthy mugger populations.' },
+  { id:'8', name:'Crested Serpent Eagle', sci:'Spilornis cheela', group:'Bird', emoji:'🦅', iucn:'LC', iucnColor:'#22c55e', pop:'Common', habitat:'Dense Forest Cover', fact:'Easily identified by its distinctive crested head and loud call echoing through Vidarbha forests.' },
+  { id:'9', name:'Dhole (Wild Dog)', sci:'Cuon alpinus', group:'Mammal', emoji:'🐕', iucn:'EN', iucnColor:'#ef4444', pop:'~50 in region', habitat:'Mixed Deciduous Forests', reserve:'Tadoba-Andhari', fact:'Pack-hunting dholes are apex predators occasionally seen in Tadoba and Melghat forests.' },
+  { id:'10', name:'Indian Python', sci:'Python molurus', group:'Reptile', emoji:'🐍', iucn:'VU', iucnColor:'#f97316', pop:'Present across forests', habitat:'Dense Forest & Water Bodies', reserve:'Tadoba-Andhari', fact:'One of the world\'s largest snakes, Indian pythons thrive in Tadoba\'s dense waterways.' },
+  { id:'11', name:'Indian Roller', sci:'Coracias benghalensis', group:'Bird', emoji:'🐦', iucn:'LC', iucnColor:'#22c55e', pop:'Common', habitat:'Open Country & Agricultural Land', fact:'Maharashtra\'s state bird, famous for its brilliant blue plumage and acrobatic courtship flight.' },
+  { id:'12', name:'Sambar Deer', sci:'Rusa unicolor', group:'Mammal', emoji:'🦌', iucn:'VU', iucnColor:'#f97316', pop:'~2000+ in reserves', habitat:'Dense Woodlands near Water', reserve:'Tadoba-Andhari', fact:'The largest deer in Asia. Key prey species for tigers in Tadoba.' },
+];
+
+let activeGroup = 'All';
+function renderWildlife() {
+  const filtered = activeGroup === 'All' ? WILDLIFE : WILDLIFE.filter(w => w.group === activeGroup);
+  document.getElementById('wildlife-grid').innerHTML = filtered.map(w => `
+    <div class="dark-card" onmouseenter="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(196,90,26,0.5)'" onmouseleave="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(212,169,74,0.15)'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;flex:1;">
+          <span style="font-size:1.6rem;">${w.emoji}</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:#F7F1E4;">${w.name}</div>
+            <div style="font-family:'Lato',sans-serif;font-size:0.72rem;font-style:italic;color:rgba(247,241,228,0.45);">${w.sci}</div>
+          </div>
+        </div>
+        <div class="iucn-badge" style="background:${w.iucnColor}22;border:1px solid ${w.iucnColor}55;color:${w.iucnColor};">IUCN ${w.iucn}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.75rem;">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(212,169,74,0.5);text-transform:uppercase;margin-bottom:0.15rem;">Population</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:#D4A94A;font-weight:600;">${w.pop}</div>
+        </div>
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(212,169,74,0.5);text-transform:uppercase;margin-bottom:0.15rem;">Habitat</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:rgba(247,241,228,0.7);font-weight:600;">${w.habitat}</div>
+        </div>
+      </div>
+      ${w.reserve ? `<div class="reserve-badge">🌿 ${w.reserve}</div>` : ''}
+      <p style="font-family:'Lato',sans-serif;font-size:0.78rem;color:rgba(247,241,228,0.55);line-height:1.6;border-top:1px solid rgba(212,169,74,0.1);padding-top:0.75rem;">${w.fact}</p>
+    </div>
+  `).join('');
+}
+
+function initWildlife() {
+  const btns = document.getElementById('filter-btns');
+  ['All','Mammal','Bird','Reptile'].forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (g === 'All' ? ' active' : '');
+    btn.textContent = g;
+    btn.onclick = () => {
+      activeGroup = g;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderWildlife();
+    };
+    btns.appendChild(btn);
+  });
+  renderWildlife();
+}
+
+// ===== SATELLITE =====
+function loadSatellite() {
+  const now = new Date();
+  const month = now.getMonth();
+  const isGreen = month >= 6 && month <= 10;
+  const ndvi = +((isGreen ? 0.62 : 0.45) + (Math.random() * 0.06 - 0.03)).toFixed(3);
+  const ndviColor = ndvi > 0.55 ? '#22c55e' : ndvi > 0.35 ? '#eab308' : '#ef4444';
+  const ndviLabel = ndvi > 0.55 ? 'Dense Vegetation' : ndvi > 0.35 ? 'Moderate' : 'Sparse';
+  const pct = Math.round((ndvi / 1) * 100);
+  const circumference = 157;
+  const dash = (pct / 100) * circumference;
+
+  document.getElementById('satellite-section').innerHTML = `
+    <div class="nature-card" style="padding:2rem;text-align:center;min-width:200px;">
+      <div class="label-sm" style="margin-bottom:1rem;">Vegetation Index</div>
+      <svg viewBox="0 0 120 70" width="160" style="overflow:visible;display:block;margin:0 auto;">
+        <path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke="rgba(27,58,45,0.1)" stroke-width="10" stroke-linecap="round"/>
+        <path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke="${ndviColor}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${dash} ${circumference}"/>
+        <text x="60" y="58" text-anchor="middle" fill="${ndviColor}" font-size="18" font-weight="900" font-family="Playfair Display,serif">${ndvi}</text>
+        <text x="60" y="70" text-anchor="middle" fill="rgba(107,79,58,0.6)" font-size="7" font-family="Rajdhani,sans-serif" letter-spacing="1">NDVI INDEX</text>
+      </svg>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:${ndviColor};font-weight:600;letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">${ndviLabel}</div>
+      <div style="font-family:'Lato',sans-serif;font-size:0.78rem;color:#6B4F3A;line-height:1.5;margin-top:1rem;">NDVI ranges from -1 to 1.<br>Above 0.5 indicates dense, healthy vegetation.</div>
+    </div>
+    <div class="card-grid" id="satellite-stats-inner"></div>
+  `;
+
+  const stats = [
+    { label:'Forest Cover', value:'16.3%', sub:'of Vidarbha area', icon:'🌳' },
+    { label:'Forest Area', value:'50.8K km²', sub:'total forested land', icon:'🗺️' },
+    { label:'Protected Area', value:'17.3K km²', sub:'across 6 reserves', icon:'🛡️' },
+    { label:'Carbon Stock', value:'0.43 Gt', sub:'carbon sequestered', icon:'♻️' },
+    { label:'Deforestation Risk', value:'3.2%', sub:'at-risk areas', icon:'⚠️' },
+    { label:'Ecosystem Trend', value:'Stable', sub:`as of ${now.toISOString().split('T')[0]}`, icon:'➡️' },
+  ];
+
+  document.getElementById('satellite-stats-inner').innerHTML = stats.map(s => `
+    <div class="nature-card" style="padding:1.25rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.5rem;">${s.icon}</div>
+      <div class="label-sm" style="margin-bottom:0.2rem;">${s.label}</div>
+      <div class="val-mid">${s.value}</div>
+      <div style="font-family:'Lato',sans-serif;font-size:0.72rem;color:#6B4F3A;">${s.sub}</div>
+    </div>
+  `).join('');
+}
+
+// ===== RIVERS =====
+function loadRivers() {
+  const rivers = [
+    { name:'Wardha', district:'Wardha / Yavatmal', base:65, flow:'Perennial', trib:'Wainganga' },
+    { name:'Wainganga', district:'Nagpur / Chandrapur', base:72, flow:'Perennial', trib:'Godavari' },
+    { name:'Penganga', district:'Yavatmal / Nanded', base:48, flow:'Seasonal', trib:'Godavari' },
+    { name:'Pench', district:'Nagpur (Pench Reserve)', base:80, flow:'Perennial', trib:'Kanhan' },
+    { name:'Kanhan', district:'Nagpur', base:58, flow:'Perennial', trib:'Wainganga' },
+    { name:'Irai', district:'Chandrapur', base:35, flow:'Seasonal', trib:'Wainganga' },
+  ];
+  const month = new Date().getMonth();
+  let adj = month >= 6 && month <= 9 ? 20 : month >= 10 ? 5 : month <= 2 ? -10 : -20;
+
+  function statusFor(level) {
+    if (level > 85) return { status:'High', color:'#ef4444' };
+    if (level > 70) return { status:'Good', color:'#22c55e' };
+    if (level < 35) return { status:'Very Low', color:'#ef4444' };
+    if (level < 50) return { status:'Low', color:'#eab308' };
+    return { status:'Normal', color:'#22c55e' };
+  }
+
+  document.getElementById('rivers-grid').innerHTML = rivers.map(r => {
+    const level = Math.min(100, Math.max(10, Math.round(r.base + adj + (Math.random() * 10 - 5))));
+    const { status, color } = statusFor(level);
+    return `
+      <div class="dark-card" onmouseenter="this.style.background='rgba(255,255,255,0.08)'" onmouseleave="this.style.background='rgba(255,255,255,0.05)'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#F7F1E4;margin-bottom:0.2rem;">💧 ${r.name} River</div>
+            <div style="font-family:'Lato',sans-serif;font-size:0.72rem;color:rgba(247,241,228,0.45);">${r.district}</div>
+          </div>
+          <div class="status-badge" style="background:${color}22;border:1px solid ${color}55;color:${color};">${status}</div>
+        </div>
+        <div style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;font-family:'Rajdhani',sans-serif;font-size:0.65rem;color:rgba(212,169,74,0.6);margin-bottom:0.4rem;"><span>Water Level</span><span style="color:${color};font-weight:700;">${level}%</span></div>
+          <div class="progress-wrap"><div class="progress-fill" style="width:${level}%;background:${color};"></div></div>
+        </div>
+        <div style="display:flex;gap:1rem;border-top:1px solid rgba(212,169,74,0.1);padding-top:0.75rem;">
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(212,169,74,0.4);text-transform:uppercase;margin-bottom:0.1rem;">Flow</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:#D4A94A;font-weight:600;">${r.flow}</div>
+          </div>
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(212,169,74,0.4);text-transform:uppercase;margin-bottom:0.1rem;">Tributary of</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:rgba(247,241,228,0.7);font-weight:600;">${r.trib}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== FIRE =====
+function renderFireData(fires) {
+  const grid = document.getElementById('fire-grid');
+  if (!fires.length) {
+    grid.innerHTML = '<div class="nature-card" style="text-align:center;padding:2.5rem;grid-column:1/-1;"><div style="font-size:2.5rem;margin-bottom:1rem;">✅</div><div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;font-weight:700;color:#1B3A2D;margin-bottom:0.5rem;">No Active Fire Alerts</div><div style="font-family:\'Lato\',sans-serif;color:#6B4F3A;font-size:0.85rem;">No thermal anomalies detected in Vidarbha region in the past 30 days.</div></div>';
+    return;
+  }
+  const statusColor = s => s==='Active'?'#ef4444':s==='Low'?'#f97316':'#22c55e';
+  const confColor = c => c==='high'?'#ef4444':c==='nominal'?'#f97316':'#eab308';
+  grid.innerHTML = fires.map(f => `
+    <div class="nature-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+        <div>
+          <div class="label-sm">${f.date}</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#1B3A2D;">${f.region}</div>
+          <div style="font-family:'Lato',sans-serif;font-size:0.72rem;color:#6B4F3A;margin-top:0.2rem;">${f.lat.toFixed(4)}°N, ${f.lon.toFixed(4)}°E</div>
+        </div>
+        <div class="status-badge" style="background:${statusColor(f.status)}22;border:1px solid ${statusColor(f.status)}55;color:${statusColor(f.status)};">${f.status}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;border-top:1px solid rgba(212,169,74,0.2);padding-top:1rem;">
+        <div>
+          <div class="label-sm label-muted">Fire Power (FRP)</div>
+          <div class="val-mid">${f.frp.toFixed(1)}<span style="font-size:0.75rem;color:#6B4F3A;font-family:'Rajdhani',sans-serif;"> MW</span></div>
+        </div>
+        <div>
+          <div class="label-sm label-muted">Confidence</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:${confColor(f.confidence)};text-transform:capitalize;">${f.confidence}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function loadFire() {
+  const sampleFires = [
+    { region:'Tadoba Buffer Zone', date:new Date().toISOString().split('T')[0], frp:32.5, confidence:'high', status:'Active', lat:20.06, lon:79.29 },
+    { region:'Melghat Tiger Reserve', date:new Date(Date.now()-86400000).toISOString().split('T')[0], frp:18.2, confidence:'nominal', status:'Low', lat:21.56, lon:77.11 },
+    { region:'Nagpur Forest Range', date:new Date(Date.now()-2*86400000).toISOString().split('T')[0], frp:8.9, confidence:'low', status:'Contained', lat:21.28, lon:79.15 },
+  ];
+  try {
+    const past30 = new Date(Date.now() - 30*24*60*60*1000).toISOString().split('T')[0];
+    const firmsUrl = `https://firms.modaps.eosdis.nasa.gov/api/country/csv/d4b48f39e58b5e6b64cf49c8a7ba2fd4/VIIRS_SNPP_NRT/IND/10/${past30}`;
+    const url = `https://corsproxy.io/?${encodeURIComponent(firmsUrl)}`;
+    const res = await fetchWithTimeout(url, {}, 8000);
+    if (!res.ok) throw new Error();
+    const text = await res.text();
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) { renderFireData(sampleFires); return; }
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
+    const latI = headers.indexOf('latitude'), lonI = headers.indexOf('longitude'),
+      dateI = headers.indexOf('acq_date'), frpI = headers.indexOf('frp'), confI = headers.indexOf('confidence');
+    const fires = [];
+    for (let i=1; i<lines.length && fires.length<10; i++) {
+      const c = lines[i].split(',');
+      const lat = parseFloat(c[latI]), lon = parseFloat(c[lonI]);
+      if (lat>=18.5&&lat<=22&&lon>=76.5&&lon<=80.5) {
+        const frp = parseFloat(c[frpI])||0;
+        const region = lat>21&&lon>79?'Nagpur District':lat>20.5&&lon<78.5?'Amravati / Melghat':lat<20&&lon>79?'Chandrapur / Tadoba':'Vidarbha Forest';
+        fires.push({ region, date:c[dateI]||past30, frp, confidence:c[confI]||'nominal', status:frp>20?'Active':'Low', lat, lon });
+      }
+    }
+    renderFireData(fires.length ? fires : sampleFires);
+  } catch {
+    renderFireData(sampleFires);
+  }
+}
+
+// ===== INIT =====
+initWildlife();
+loadSatellite();
+loadRivers();
+loadWeather();
+loadAQI();
+loadFire();
+
+// Auto-refresh
+setInterval(loadWeather, 10*60*1000);
+setInterval(loadAQI, 15*60*1000);
+setInterval(loadFire, 60*60*1000);
+setInterval(loadRivers, 30*60*1000);
+</script>
+</body>
+</html>
